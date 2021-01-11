@@ -28,8 +28,9 @@ class TeamForm extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(15.0),
           child: Form(
-            autovalidateMode: AutovalidateMode.always,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: TextFormField(
+              key: const Key('team_search_text'),
               autofocus: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -42,19 +43,23 @@ class TeamForm extends StatelessWidget {
               onChanged: (value) => context
                   .read<TeamFormSearchBloc>()
                   .add(TeamFormSearchEvent.changeTeam(value)),
-              validator: (_) =>
-                  context.read<TeamFormSearchBloc>().state.teamSearchingIsEmpty
-                      ? 'Team cannot be empty'
-                      : null,
+              validator: (_) => context
+                  .read<TeamFormSearchBloc>()
+                  .state
+                  .teamSearch
+                  .value
+                  .fold(
+                    (error) => error.maybeMap(
+                      empty: (_) => 'Team cannot be empty',
+                      invalid: (_) => 'Team term is not valid',
+                      orElse: () => null,
+                    ),
+                    (_) => null,
+                  ),
               onFieldSubmitted: (value) {
-                if (!context
+                context
                     .read<TeamFormSearchBloc>()
-                    .state
-                    .teamSearchingIsEmpty) {
-                  context
-                      .read<TeamFormSearchBloc>()
-                      .add(TeamFormSearchEvent.search(value));
-                }
+                    .add(TeamFormSearchEvent.search(value));
               },
               enabled: !context.watch<TeamFormSearchBloc>().state.isSearching,
             ),

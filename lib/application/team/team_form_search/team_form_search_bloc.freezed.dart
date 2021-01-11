@@ -334,15 +334,13 @@ class _$TeamFormSearchStateTearOff {
 
 // ignore: unused_element
   _TeamFormSearchState call(
-      {@required Option<Either<Failure, Team>> teamFailureOrSuccess,
-      @required bool isSearching,
-      @required bool activateSearchText,
-      @required bool teamSearchingIsEmpty}) {
+      {@required SearchText teamSearch,
+      @required Option<Either<Failure, Team>> teamFailureOrSuccess,
+      @required bool isSearching}) {
     return _TeamFormSearchState(
+      teamSearch: teamSearch,
       teamFailureOrSuccess: teamFailureOrSuccess,
       isSearching: isSearching,
-      activateSearchText: activateSearchText,
-      teamSearchingIsEmpty: teamSearchingIsEmpty,
     );
   }
 }
@@ -353,10 +351,9 @@ const $TeamFormSearchState = _$TeamFormSearchStateTearOff();
 
 /// @nodoc
 mixin _$TeamFormSearchState {
+  SearchText get teamSearch;
   Option<Either<Failure, Team>> get teamFailureOrSuccess;
   bool get isSearching;
-  bool get activateSearchText;
-  bool get teamSearchingIsEmpty;
 
   $TeamFormSearchStateCopyWith<TeamFormSearchState> get copyWith;
 }
@@ -367,10 +364,9 @@ abstract class $TeamFormSearchStateCopyWith<$Res> {
           TeamFormSearchState value, $Res Function(TeamFormSearchState) then) =
       _$TeamFormSearchStateCopyWithImpl<$Res>;
   $Res call(
-      {Option<Either<Failure, Team>> teamFailureOrSuccess,
-      bool isSearching,
-      bool activateSearchText,
-      bool teamSearchingIsEmpty});
+      {SearchText teamSearch,
+      Option<Either<Failure, Team>> teamFailureOrSuccess,
+      bool isSearching});
 }
 
 /// @nodoc
@@ -384,23 +380,18 @@ class _$TeamFormSearchStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object teamSearch = freezed,
     Object teamFailureOrSuccess = freezed,
     Object isSearching = freezed,
-    Object activateSearchText = freezed,
-    Object teamSearchingIsEmpty = freezed,
   }) {
     return _then(_value.copyWith(
+      teamSearch:
+          teamSearch == freezed ? _value.teamSearch : teamSearch as SearchText,
       teamFailureOrSuccess: teamFailureOrSuccess == freezed
           ? _value.teamFailureOrSuccess
           : teamFailureOrSuccess as Option<Either<Failure, Team>>,
       isSearching:
           isSearching == freezed ? _value.isSearching : isSearching as bool,
-      activateSearchText: activateSearchText == freezed
-          ? _value.activateSearchText
-          : activateSearchText as bool,
-      teamSearchingIsEmpty: teamSearchingIsEmpty == freezed
-          ? _value.teamSearchingIsEmpty
-          : teamSearchingIsEmpty as bool,
     ));
   }
 }
@@ -413,10 +404,9 @@ abstract class _$TeamFormSearchStateCopyWith<$Res>
       __$TeamFormSearchStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Option<Either<Failure, Team>> teamFailureOrSuccess,
-      bool isSearching,
-      bool activateSearchText,
-      bool teamSearchingIsEmpty});
+      {SearchText teamSearch,
+      Option<Either<Failure, Team>> teamFailureOrSuccess,
+      bool isSearching});
 }
 
 /// @nodoc
@@ -432,23 +422,18 @@ class __$TeamFormSearchStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object teamSearch = freezed,
     Object teamFailureOrSuccess = freezed,
     Object isSearching = freezed,
-    Object activateSearchText = freezed,
-    Object teamSearchingIsEmpty = freezed,
   }) {
     return _then(_TeamFormSearchState(
+      teamSearch:
+          teamSearch == freezed ? _value.teamSearch : teamSearch as SearchText,
       teamFailureOrSuccess: teamFailureOrSuccess == freezed
           ? _value.teamFailureOrSuccess
           : teamFailureOrSuccess as Option<Either<Failure, Team>>,
       isSearching:
           isSearching == freezed ? _value.isSearching : isSearching as bool,
-      activateSearchText: activateSearchText == freezed
-          ? _value.activateSearchText
-          : activateSearchText as bool,
-      teamSearchingIsEmpty: teamSearchingIsEmpty == freezed
-          ? _value.teamSearchingIsEmpty
-          : teamSearchingIsEmpty as bool,
     ));
   }
 }
@@ -456,54 +441,46 @@ class __$TeamFormSearchStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_TeamFormSearchState implements _TeamFormSearchState {
   const _$_TeamFormSearchState(
-      {@required this.teamFailureOrSuccess,
-      @required this.isSearching,
-      @required this.activateSearchText,
-      @required this.teamSearchingIsEmpty})
-      : assert(teamFailureOrSuccess != null),
-        assert(isSearching != null),
-        assert(activateSearchText != null),
-        assert(teamSearchingIsEmpty != null);
+      {@required this.teamSearch,
+      @required this.teamFailureOrSuccess,
+      @required this.isSearching})
+      : assert(teamSearch != null),
+        assert(teamFailureOrSuccess != null),
+        assert(isSearching != null);
 
+  @override
+  final SearchText teamSearch;
   @override
   final Option<Either<Failure, Team>> teamFailureOrSuccess;
   @override
   final bool isSearching;
-  @override
-  final bool activateSearchText;
-  @override
-  final bool teamSearchingIsEmpty;
 
   @override
   String toString() {
-    return 'TeamFormSearchState(teamFailureOrSuccess: $teamFailureOrSuccess, isSearching: $isSearching, activateSearchText: $activateSearchText, teamSearchingIsEmpty: $teamSearchingIsEmpty)';
+    return 'TeamFormSearchState(teamSearch: $teamSearch, teamFailureOrSuccess: $teamFailureOrSuccess, isSearching: $isSearching)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _TeamFormSearchState &&
+            (identical(other.teamSearch, teamSearch) ||
+                const DeepCollectionEquality()
+                    .equals(other.teamSearch, teamSearch)) &&
             (identical(other.teamFailureOrSuccess, teamFailureOrSuccess) ||
                 const DeepCollectionEquality().equals(
                     other.teamFailureOrSuccess, teamFailureOrSuccess)) &&
             (identical(other.isSearching, isSearching) ||
                 const DeepCollectionEquality()
-                    .equals(other.isSearching, isSearching)) &&
-            (identical(other.activateSearchText, activateSearchText) ||
-                const DeepCollectionEquality()
-                    .equals(other.activateSearchText, activateSearchText)) &&
-            (identical(other.teamSearchingIsEmpty, teamSearchingIsEmpty) ||
-                const DeepCollectionEquality()
-                    .equals(other.teamSearchingIsEmpty, teamSearchingIsEmpty)));
+                    .equals(other.isSearching, isSearching)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(teamSearch) ^
       const DeepCollectionEquality().hash(teamFailureOrSuccess) ^
-      const DeepCollectionEquality().hash(isSearching) ^
-      const DeepCollectionEquality().hash(activateSearchText) ^
-      const DeepCollectionEquality().hash(teamSearchingIsEmpty);
+      const DeepCollectionEquality().hash(isSearching);
 
   @override
   _$TeamFormSearchStateCopyWith<_TeamFormSearchState> get copyWith =>
@@ -513,19 +490,16 @@ class _$_TeamFormSearchState implements _TeamFormSearchState {
 
 abstract class _TeamFormSearchState implements TeamFormSearchState {
   const factory _TeamFormSearchState(
-      {@required Option<Either<Failure, Team>> teamFailureOrSuccess,
-      @required bool isSearching,
-      @required bool activateSearchText,
-      @required bool teamSearchingIsEmpty}) = _$_TeamFormSearchState;
+      {@required SearchText teamSearch,
+      @required Option<Either<Failure, Team>> teamFailureOrSuccess,
+      @required bool isSearching}) = _$_TeamFormSearchState;
 
+  @override
+  SearchText get teamSearch;
   @override
   Option<Either<Failure, Team>> get teamFailureOrSuccess;
   @override
   bool get isSearching;
-  @override
-  bool get activateSearchText;
-  @override
-  bool get teamSearchingIsEmpty;
   @override
   _$TeamFormSearchStateCopyWith<_TeamFormSearchState> get copyWith;
 }

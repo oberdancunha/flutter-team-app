@@ -62,6 +62,34 @@ A tela do usuário é atualizada a cada nova pesquisa, primeiramente exibindo o 
   />
 </p>
 
+## Termos não aceitos
+
+Alguns termos na busca não são aceitos, apresentando os seguintes erros:
+
+**Team cannot be empty:** não permite que o campo de texto esteja vazio
+**Team term is not valid:** somente caracters alfanuméricos e espaços são aceitos na pesquisa. Além disso, caracteres condizentes com a língua portuguesa, como as vogais e consoantes acentuadas e o ç também são aceitos. Caracteres especias como asterisco, cifrão, dentre outros não são aceitos. Talvez alguns times com nomes um tanto quanto excêntricos fiquem de fora da busca até que a validação tenha os devidos ajustes
+
+<p
+  float="left"
+>
+  <img
+    src="images/team_not_empty.png"
+    alt="teamnotempty"
+    title="Team not empty"
+    width="150"
+    height="300"
+    border= "1px solid black"
+  />
+  <img
+    src="images/team_invalid.png"
+    alt="teaminvalid"
+    title="Team invalid"
+    width="150"
+    height="300"
+    border= "1px solid black"
+  />
+</p>
+
 ## Problemas na consulta
 
 A consulta por um time de interesse pode apresentar os seguintes problemas:

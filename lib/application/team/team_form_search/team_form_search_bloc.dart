@@ -5,6 +5,8 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../domain/core/failures.dart';
+import '../../../domain/core/value_sanitize.dart';
+import '../../../domain/search/value_objects.dart';
 import '../../../domain/teams/i_team_repository.dart';
 import '../../../domain/teams/team.dart';
 
@@ -27,25 +29,22 @@ class TeamFormSearchBloc
       changeTeam: (e) async* {
         yield state.copyWith(
           teamFailureOrSuccess: none(),
-          isSearching: false,
-          activateSearchText: true,
-          teamSearchingIsEmpty: e.teamSearch.isEmpty,
+          teamSearch: SearchText(e.teamSearch),
         );
       },
       search: (e) async* {
+        Either<Failure, Team> teamFailureOrSuccess;
+        if (state.teamSearch.isValid()) {
+          yield state.copyWith(
+            isSearching: true,
+          );
+          teamFailureOrSuccess = await _teamRepository.getDetails(
+            removeExcessiveWhitspaces(e.teamSearch),
+          );
+        }
         yield state.copyWith(
-          teamFailureOrSuccess: none(),
-          isSearching: true,
-          activateSearchText: false,
-          teamSearchingIsEmpty: false,
-        );
-        final teamFailureOrSuccess =
-            await _teamRepository.getDetails(e.teamSearch);
-        yield state.copyWith(
-          teamFailureOrSuccess: some(teamFailureOrSuccess),
+          teamFailureOrSuccess: optionOf(teamFailureOrSuccess),
           isSearching: false,
-          activateSearchText: true,
-          teamSearchingIsEmpty: false,
         );
       },
     );
