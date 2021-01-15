@@ -25,7 +25,7 @@ void main() {
   MockTeamDataSource mockTeamDataSource;
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  final teamJson = TeamDto.fromJson({
+  final teamDetails = TeamDto.fromJson({
     "id": 126,
     "name": "Sao Paulo",
     "country": "Brasil",
@@ -89,7 +89,7 @@ void main() {
     'Should return the data when the team searched is found',
     (WidgetTester tester) async {
       when(mockTeamDataSource.getDetails(any)).thenAnswer(
-        (_) async => teamJson,
+        (_) async => teamDetails,
       );
       await searchResult(
         tester: tester,
