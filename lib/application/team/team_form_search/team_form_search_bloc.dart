@@ -16,10 +16,13 @@ part 'team_form_search_state.dart';
 
 class TeamFormSearchBloc
     extends Bloc<TeamFormSearchEvent, TeamFormSearchState> {
-  final ITeamRepository _teamRepository;
+  final ITeamRepository teamRepository;
+  final ValueSanitize valueSanitize;
 
-  TeamFormSearchBloc(this._teamRepository)
-      : super(TeamFormSearchState.initial());
+  TeamFormSearchBloc({
+    @required this.teamRepository,
+    @required this.valueSanitize,
+  }) : super(TeamFormSearchState.initial());
 
   @override
   Stream<TeamFormSearchState> mapEventToState(
@@ -35,11 +38,14 @@ class TeamFormSearchBloc
       search: (e) async* {
         Either<Failure, Team> teamFailureOrSuccess;
         if (state.teamSearch.isValid()) {
+          final teamSearch = valueSanitize.removeExcessiveWhitspaces(
+            e.teamSearch,
+          );
           yield state.copyWith(
             isSearching: true,
           );
-          teamFailureOrSuccess = await _teamRepository.getDetails(
-            removeExcessiveWhitspaces(e.teamSearch),
+          teamFailureOrSuccess = await teamRepository.getDetails(
+            teamSearch,
           );
         }
         yield state.copyWith(

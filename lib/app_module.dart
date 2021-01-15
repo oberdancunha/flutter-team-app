@@ -5,6 +5,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'application/team/team_form_search/team_form_search_bloc.dart';
 import 'core/network/i_network_info.dart';
+import 'domain/core/value_sanitize.dart';
 import 'domain/teams/i_team_data_source.dart';
 import 'domain/teams/i_team_repository.dart';
 import 'infrastructure/core/network/network_info_data_connection_checker.dart';
@@ -30,9 +31,11 @@ class AppModule extends MainModule {
         Bind<DataConnectionChecker>((i) => DataConnectionChecker()),
         Bind<ITeamDataSource>((i) => TeamDataSourceDio(client: i.get<Dio>())),
         Bind<Dio>((i) => Dio()),
+        Bind<ValueSanitize>((i) => ValueSanitize()),
         Bind<TeamFormSearchBloc>(
           (i) => TeamFormSearchBloc(
-            i.get<TeamRepository>(),
+            teamRepository: i.get<TeamRepository>(),
+            valueSanitize: i.get<ValueSanitize>(),
           ),
         ),
       ];
