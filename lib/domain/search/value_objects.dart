@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
 
-import 'package:teamapp/domain/core/value_failures.dart';
-import 'package:teamapp/domain/core/value_validators.dart';
-
+import '../core/value_failures.dart';
 import '../core/value_objects.dart';
+import '../core/value_validators.dart';
 
 class SearchText extends ValueObject<String> {
   @override
