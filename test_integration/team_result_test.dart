@@ -21,9 +21,9 @@ import 'package:teamapp/presentation/team/widget/team_result_details.dart';
 class MockTeamDataSource extends Mock implements TeamDataSourceDio {}
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   const teamSearchTextFieldKey = 'team_search_text';
   MockTeamDataSource mockTeamDataSource;
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   final teamDetails = TeamDto.fromJson({
     "id": 126,
