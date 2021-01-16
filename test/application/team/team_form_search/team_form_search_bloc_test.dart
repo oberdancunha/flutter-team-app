@@ -71,13 +71,25 @@ void main() {
       }
 
       test(
-        'Should obtain team result',
+        'Should get team result',
         () async {
           setUpMockValueSanitize();
           setUpMockResultSuccess();
           setUpBlocEvents();
           await untilCalled(mockTeamRepository.getDetails(any));
           verify(mockTeamRepository.getDetails(teamSearch));
+        },
+      );
+
+      test(
+        'Should obtain team result success',
+        () async {
+          setUpMockValueSanitize();
+          setUpMockResultSuccess();
+          setUpBlocEvents();
+          await untilCalled(mockTeamRepository.getDetails(any));
+          final teamResult = await mockTeamRepository.getDetails(teamSearch);
+          expect(teamResult, equals(right(teamDetails)));
         },
       );
 
