@@ -11,7 +11,7 @@ void main() {
   group('fromJson', () {
     test(
       'Should return a valid DTO when JSON contains an integer value',
-      () async {
+      () {
         final Map<String, dynamic> jsonMap = json.decode(
           jsonReaderToString('team.json'),
         ) as Map<String, dynamic>;
@@ -22,7 +22,7 @@ void main() {
   });
 
   group('toJson', () {
-    test('Should return a JSON containing the data', () async {
+    test('Should return a JSON containing the data', () {
       final result = teamDto.toJson();
       final expectedJson = jsonReader('team.json');
       expect(result, expectedJson);
