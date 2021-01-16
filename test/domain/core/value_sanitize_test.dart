@@ -9,7 +9,7 @@ void main() {
     valueSanitize = ValueSanitize();
   });
 
-  test('Should call for the sanitization of excessive spaces', () async {
+  test('Should call for the sanitization of excessive spaces', () {
     const valueProblem = '     Sao       Paulo       ';
     final sanitizedValue =
         valueSanitize.removeExcessiveWhitspaces(valueProblem);
