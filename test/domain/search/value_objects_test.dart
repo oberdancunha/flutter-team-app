@@ -13,6 +13,7 @@ void main() {
         expect(inputValidate.value, equals(right(input)));
       },
     );
+
     test(
       'Should validate empty text',
       () {
