@@ -12,7 +12,7 @@ void main() {
   test('Should call for the sanitization of excessive spaces', () {
     const valueProblem = '     Sao       Paulo       ';
     final sanitizedValue =
-        valueSanitize.removeExcessiveWhitspaces(valueProblem);
+        valueSanitize.removeExcessiveWhiteSpaces(valueProblem);
     expect(sanitizedValue, equals(correctFinalValue));
   });
 }

@@ -1,5 +1,5 @@
 class ValueSanitize {
-  String removeExcessiveWhitspaces(String input) {
+  String removeExcessiveWhiteSpaces(String input) {
     return input.trim().replaceAll(RegExp(' +'), ' ');
   }
 }
