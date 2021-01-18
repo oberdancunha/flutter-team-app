@@ -38,7 +38,7 @@ class TeamFormSearchBloc
       search: (e) async* {
         Either<Failure, Team> teamFailureOrSuccess;
         if (state.teamSearch.isValid()) {
-          final teamSearch = valueSanitize.removeExcessiveWhitspaces(
+          final teamSearch = valueSanitize.removeExcessiveWhiteSpaces(
             e.teamSearch,
           );
           yield state.copyWith(

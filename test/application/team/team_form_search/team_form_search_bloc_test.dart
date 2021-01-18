@@ -42,7 +42,7 @@ void main() {
   );
 
   void setUpMockValueSanitize() {
-    when(mockValueSanitize.removeExcessiveWhitspaces(any))
+    when(mockValueSanitize.removeExcessiveWhiteSpaces(any))
         .thenReturn(teamSearch);
   }
 
@@ -56,8 +56,8 @@ void main() {
     () async {
       setUpMockValueSanitize();
       setUpBlocEvents();
-      await untilCalled(mockValueSanitize.removeExcessiveWhitspaces(any));
-      verify(mockValueSanitize.removeExcessiveWhitspaces(teamSearch));
+      await untilCalled(mockValueSanitize.removeExcessiveWhiteSpaces(any));
+      verify(mockValueSanitize.removeExcessiveWhiteSpaces(teamSearch));
     },
   );
 
