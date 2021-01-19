@@ -3,7 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:teamapp/app_module.dart';
+import 'package:teamapp/presentation/core/app_module.dart';
 import 'package:teamapp/presentation/core/app_widget.dart';
 import 'package:teamapp/presentation/team/widget/team_details.dart';
 import 'package:teamapp/presentation/team/widget/team_form.dart';
