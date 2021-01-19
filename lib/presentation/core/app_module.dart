@@ -19,8 +19,8 @@ class AppModule extends MainModule {
   List<Bind> get binds => [
         Bind<ITeamRepository>(
           (i) => TeamRepository(
-            teamDataSource: i.get<TeamDataSourceDio>(),
-            networkInfo: i.get<NetworkInfoDataConnectionChecker>(),
+            teamDataSource: i.get<ITeamDataSource>(),
+            networkInfo: i.get<INetworkInfo>(),
           ),
         ),
         Bind<INetworkInfo>(
@@ -34,7 +34,7 @@ class AppModule extends MainModule {
         Bind<ValueSanitize>((i) => ValueSanitize()),
         Bind<TeamFormSearchBloc>(
           (i) => TeamFormSearchBloc(
-            teamRepository: i.get<TeamRepository>(),
+            teamRepository: i.get<ITeamRepository>(),
             valueSanitize: i.get<ValueSanitize>(),
           ),
         ),
