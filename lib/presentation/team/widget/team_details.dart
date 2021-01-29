@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/teams/team.dart';
+import '../../../domain/team/team.dart';
 
 class TeamDetails extends StatelessWidget {
   final Team team;

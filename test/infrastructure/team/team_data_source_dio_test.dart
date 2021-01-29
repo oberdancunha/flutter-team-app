@@ -4,7 +4,7 @@ import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:teamapp/config_reader.dart';
 import 'package:teamapp/core/errors/exceptions/server_exception.dart';
-import 'package:teamapp/domain/teams/team.dart';
+import 'package:teamapp/domain/team/team.dart';
 import 'package:teamapp/infrastructure/team/team_data_source_dio.dart';
 import 'package:teamapp/infrastructure/team/team_dto.dart';
 

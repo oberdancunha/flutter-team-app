@@ -2,11 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:teamapp/application/team/team_form_search/team_form_search_bloc.dart';
-import 'package:teamapp/domain/core/failures.dart';
 import 'package:teamapp/domain/core/value_sanitize.dart';
 import 'package:teamapp/domain/search/value_objects.dart';
-import 'package:teamapp/domain/teams/i_team_repository.dart';
-import 'package:teamapp/domain/teams/team.dart';
+import 'package:teamapp/domain/team/i_team_repository.dart';
+import 'package:teamapp/domain/team/team.dart';
+import 'package:teamapp/domain/team/team_failures.dart';
 
 class MockTeamRepository extends Mock implements ITeamRepository {}
 
@@ -42,8 +42,7 @@ void main() {
   );
 
   void setUpMockValueSanitize() {
-    when(mockValueSanitize.removeExcessiveWhiteSpaces(any))
-        .thenReturn(teamSearch);
+    when(mockValueSanitize.removeExcessiveWhiteSpaces(any)).thenReturn(teamSearch);
   }
 
   void setUpBlocEvents() {
@@ -125,13 +124,13 @@ void main() {
   );
 
   group('Result Error', () {
-    void setUpMockResultError(Failure failure) {
+    void setUpMockResultError(TeamFailure failure) {
       when(mockTeamRepository.getDetails(any)).thenAnswer(
         (_) async => left(failure),
       );
     }
 
-    Future<void> testResultError(Failure failure) async {
+    Future<void> testResultError(TeamFailure failure) async {
       setUpMockValueSanitize();
       setUpMockResultError(failure);
       setUpBlocEvents();
@@ -139,7 +138,7 @@ void main() {
       verify(mockTeamRepository.getDetails(teamSearch));
     }
 
-    void testStateError(Failure failure) {
+    void testStateError(TeamFailure failure) {
       setUpMockResultError(failure);
       final expected = [
         TeamFormSearchState(
@@ -166,7 +165,7 @@ void main() {
     }
 
     group('Server error', () {
-      const serverError = Failure.serverError();
+      const serverError = TeamFailure.serverError();
       test(
         'Should obtain server error result',
         () async {
@@ -181,7 +180,7 @@ void main() {
       );
     });
     group('Connection error', () {
-      const connectionError = Failure.isNotConnected();
+      const connectionError = TeamFailure.isNotConnected();
       test(
         'Should obtain connection error result',
         () async {

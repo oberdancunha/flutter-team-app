@@ -335,7 +335,7 @@ class _$TeamFormSearchStateTearOff {
 // ignore: unused_element
   _TeamFormSearchState call(
       {@required SearchText teamSearch,
-      @required Option<Either<Failure, Team>> teamFailureOrSuccess,
+      @required Option<Either<TeamFailure, Team>> teamFailureOrSuccess,
       @required bool isSearching}) {
     return _TeamFormSearchState(
       teamSearch: teamSearch,
@@ -352,7 +352,7 @@ const $TeamFormSearchState = _$TeamFormSearchStateTearOff();
 /// @nodoc
 mixin _$TeamFormSearchState {
   SearchText get teamSearch;
-  Option<Either<Failure, Team>> get teamFailureOrSuccess;
+  Option<Either<TeamFailure, Team>> get teamFailureOrSuccess;
   bool get isSearching;
 
   $TeamFormSearchStateCopyWith<TeamFormSearchState> get copyWith;
@@ -365,7 +365,7 @@ abstract class $TeamFormSearchStateCopyWith<$Res> {
       _$TeamFormSearchStateCopyWithImpl<$Res>;
   $Res call(
       {SearchText teamSearch,
-      Option<Either<Failure, Team>> teamFailureOrSuccess,
+      Option<Either<TeamFailure, Team>> teamFailureOrSuccess,
       bool isSearching});
 }
 
@@ -389,7 +389,7 @@ class _$TeamFormSearchStateCopyWithImpl<$Res>
           teamSearch == freezed ? _value.teamSearch : teamSearch as SearchText,
       teamFailureOrSuccess: teamFailureOrSuccess == freezed
           ? _value.teamFailureOrSuccess
-          : teamFailureOrSuccess as Option<Either<Failure, Team>>,
+          : teamFailureOrSuccess as Option<Either<TeamFailure, Team>>,
       isSearching:
           isSearching == freezed ? _value.isSearching : isSearching as bool,
     ));
@@ -405,7 +405,7 @@ abstract class _$TeamFormSearchStateCopyWith<$Res>
   @override
   $Res call(
       {SearchText teamSearch,
-      Option<Either<Failure, Team>> teamFailureOrSuccess,
+      Option<Either<TeamFailure, Team>> teamFailureOrSuccess,
       bool isSearching});
 }
 
@@ -431,7 +431,7 @@ class __$TeamFormSearchStateCopyWithImpl<$Res>
           teamSearch == freezed ? _value.teamSearch : teamSearch as SearchText,
       teamFailureOrSuccess: teamFailureOrSuccess == freezed
           ? _value.teamFailureOrSuccess
-          : teamFailureOrSuccess as Option<Either<Failure, Team>>,
+          : teamFailureOrSuccess as Option<Either<TeamFailure, Team>>,
       isSearching:
           isSearching == freezed ? _value.isSearching : isSearching as bool,
     ));
@@ -451,7 +451,7 @@ class _$_TeamFormSearchState implements _TeamFormSearchState {
   @override
   final SearchText teamSearch;
   @override
-  final Option<Either<Failure, Team>> teamFailureOrSuccess;
+  final Option<Either<TeamFailure, Team>> teamFailureOrSuccess;
   @override
   final bool isSearching;
 
@@ -491,13 +491,13 @@ class _$_TeamFormSearchState implements _TeamFormSearchState {
 abstract class _TeamFormSearchState implements TeamFormSearchState {
   const factory _TeamFormSearchState(
       {@required SearchText teamSearch,
-      @required Option<Either<Failure, Team>> teamFailureOrSuccess,
+      @required Option<Either<TeamFailure, Team>> teamFailureOrSuccess,
       @required bool isSearching}) = _$_TeamFormSearchState;
 
   @override
   SearchText get teamSearch;
   @override
-  Option<Either<Failure, Team>> get teamFailureOrSuccess;
+  Option<Either<TeamFailure, Team>> get teamFailureOrSuccess;
   @override
   bool get isSearching;
   @override

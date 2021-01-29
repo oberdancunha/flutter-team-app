@@ -40,15 +40,9 @@ class TeamForm extends StatelessWidget {
                 labelText: 'Inform your favorite team',
               ),
               autocorrect: false,
-              onChanged: (value) => context
-                  .read<TeamFormSearchBloc>()
-                  .add(TeamFormSearchEvent.changeTeam(value)),
-              validator: (_) => context
-                  .read<TeamFormSearchBloc>()
-                  .state
-                  .teamSearch
-                  .value
-                  .fold(
+              onChanged: (value) =>
+                  context.read<TeamFormSearchBloc>().add(TeamFormSearchEvent.changeTeam(value)),
+              validator: (_) => context.read<TeamFormSearchBloc>().state.teamSearch.value.fold(
                     (error) => error.maybeMap(
                       empty: (_) => 'Team cannot be empty',
                       invalid: (_) => 'Team term is not valid',
@@ -57,9 +51,7 @@ class TeamForm extends StatelessWidget {
                     (_) => null,
                   ),
               onFieldSubmitted: (value) {
-                context
-                    .read<TeamFormSearchBloc>()
-                    .add(TeamFormSearchEvent.search(value));
+                context.read<TeamFormSearchBloc>().add(TeamFormSearchEvent.search(value));
               },
               enabled: !context.watch<TeamFormSearchBloc>().state.isSearching,
             ),

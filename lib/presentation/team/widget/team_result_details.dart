@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/teams/team.dart';
+import '../../../domain/team/team.dart';
 import 'team_details.dart';
 import 'team_not_found.dart';
 

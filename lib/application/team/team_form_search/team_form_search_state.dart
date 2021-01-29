@@ -4,7 +4,7 @@ part of 'team_form_search_bloc.dart';
 abstract class TeamFormSearchState with _$TeamFormSearchState {
   const factory TeamFormSearchState({
     @required SearchText teamSearch,
-    @required Option<Either<Failure, Team>> teamFailureOrSuccess,
+    @required Option<Either<TeamFailure, Team>> teamFailureOrSuccess,
     @required bool isSearching,
   }) = _TeamFormSearchState;
   factory TeamFormSearchState.initial() => TeamFormSearchState(

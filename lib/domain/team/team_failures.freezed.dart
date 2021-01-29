@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
-part of 'failures.dart';
+part of 'team_failures.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -10,8 +10,8 @@ part of 'failures.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-class _$FailureTearOff {
-  const _$FailureTearOff();
+class _$TeamFailureTearOff {
+  const _$TeamFailureTearOff();
 
 // ignore: unused_element
   _ServerError serverError() {
@@ -26,10 +26,10 @@ class _$FailureTearOff {
 
 /// @nodoc
 // ignore: unused_element
-const $Failure = _$FailureTearOff();
+const $TeamFailure = _$TeamFailureTearOff();
 
 /// @nodoc
-mixin _$Failure {
+mixin _$TeamFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult serverError(),
@@ -55,18 +55,19 @@ mixin _$Failure {
 }
 
 /// @nodoc
-abstract class $FailureCopyWith<$Res> {
-  factory $FailureCopyWith(Failure value, $Res Function(Failure) then) =
-      _$FailureCopyWithImpl<$Res>;
+abstract class $TeamFailureCopyWith<$Res> {
+  factory $TeamFailureCopyWith(
+          TeamFailure value, $Res Function(TeamFailure) then) =
+      _$TeamFailureCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$FailureCopyWithImpl<$Res> implements $FailureCopyWith<$Res> {
-  _$FailureCopyWithImpl(this._value, this._then);
+class _$TeamFailureCopyWithImpl<$Res> implements $TeamFailureCopyWith<$Res> {
+  _$TeamFailureCopyWithImpl(this._value, this._then);
 
-  final Failure _value;
+  final TeamFailure _value;
   // ignore: unused_field
-  final $Res Function(Failure) _then;
+  final $Res Function(TeamFailure) _then;
 }
 
 /// @nodoc
@@ -77,7 +78,7 @@ abstract class _$ServerErrorCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$ServerErrorCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
+class __$ServerErrorCopyWithImpl<$Res> extends _$TeamFailureCopyWithImpl<$Res>
     implements _$ServerErrorCopyWith<$Res> {
   __$ServerErrorCopyWithImpl(
       _ServerError _value, $Res Function(_ServerError) _then)
@@ -93,7 +94,7 @@ class _$_ServerError implements _ServerError {
 
   @override
   String toString() {
-    return 'Failure.serverError()';
+    return 'TeamFailure.serverError()';
   }
 
   @override
@@ -155,7 +156,7 @@ class _$_ServerError implements _ServerError {
   }
 }
 
-abstract class _ServerError implements Failure {
+abstract class _ServerError implements TeamFailure {
   const factory _ServerError() = _$_ServerError;
 }
 
@@ -167,7 +168,8 @@ abstract class _$IsNotConnectedCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$IsNotConnectedCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
+class __$IsNotConnectedCopyWithImpl<$Res>
+    extends _$TeamFailureCopyWithImpl<$Res>
     implements _$IsNotConnectedCopyWith<$Res> {
   __$IsNotConnectedCopyWithImpl(
       _IsNotConnected _value, $Res Function(_IsNotConnected) _then)
@@ -183,7 +185,7 @@ class _$_IsNotConnected implements _IsNotConnected {
 
   @override
   String toString() {
-    return 'Failure.isNotConnected()';
+    return 'TeamFailure.isNotConnected()';
   }
 
   @override
@@ -245,6 +247,6 @@ class _$_IsNotConnected implements _IsNotConnected {
   }
 }
 
-abstract class _IsNotConnected implements Failure {
+abstract class _IsNotConnected implements TeamFailure {
   const factory _IsNotConnected() = _$_IsNotConnected;
 }

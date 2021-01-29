@@ -5,8 +5,8 @@ import 'package:meta/meta.dart';
 
 import '../../config_reader.dart';
 import '../../core/errors/exceptions/server_exception.dart';
-import '../../domain/teams/i_team_data_source.dart';
-import '../../domain/teams/team.dart';
+import '../../domain/team/i_team_data_source.dart';
+import '../../domain/team/team.dart';
 import 'team_dto.dart';
 
 class TeamDataSourceDio implements ITeamDataSource {
