@@ -4,14 +4,14 @@ import '../core/value_failures.dart';
 import '../core/value_objects.dart';
 import '../core/value_validators.dart';
 
-class SearchText extends ValueObject<String> {
+class SearchTerm extends ValueObject<String> {
   @override
   final Either<ValueFailure<String>, String> value;
 
-  factory SearchText(String search) {
-    assert(search != null);
-    return SearchText._(validateEmpty(search).flatMap(validateInvalid));
+  factory SearchTerm(String term) {
+    assert(term != null);
+    return SearchTerm._(validateEmpty(term).flatMap(validateInvalid));
   }
 
-  const SearchText._(this.value);
+  const SearchTerm._(this.value);
 }

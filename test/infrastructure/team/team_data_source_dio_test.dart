@@ -16,9 +16,9 @@ void main() {
   TeamDataSourceDio dataSource;
   MockDio mockDio;
   const teamSearch = 'São Paulo';
-  final teamJson = jsonReaderToString('team_response.json');
-  final teamJsonNotFound = jsonReaderToString('team_response_not_found.json');
-  final teamDetails = TeamDto.fromJson(jsonReader('team.json')).toDomain();
+  final teamJson = jsonReaderToString('team/team_response.json');
+  final teamJsonNotFound = jsonReaderToString('team/team_response_not_found.json');
+  final teamDetails = TeamDto.fromJson(jsonReader('team/team.json')).toDomain();
 
   setUp(() async {
     TestWidgetsFlutterBinding.ensureInitialized();

@@ -99,17 +99,17 @@ void main() {
           final expected = [
             TeamFormSearchState(
               teamFailureOrSuccess: none(),
-              teamSearch: SearchText(teamSearch),
+              teamSearch: SearchTerm(teamSearch),
               isSearching: false,
             ),
             TeamFormSearchState(
               teamFailureOrSuccess: none(),
-              teamSearch: SearchText(teamSearch),
+              teamSearch: SearchTerm(teamSearch),
               isSearching: true,
             ),
             TeamFormSearchState(
               teamFailureOrSuccess: optionOf(right(teamDetails)),
-              teamSearch: SearchText(teamSearch),
+              teamSearch: SearchTerm(teamSearch),
               isSearching: false,
             ),
           ];
@@ -143,17 +143,17 @@ void main() {
       final expected = [
         TeamFormSearchState(
           teamFailureOrSuccess: none(),
-          teamSearch: SearchText(teamSearch),
+          teamSearch: SearchTerm(teamSearch),
           isSearching: false,
         ),
         TeamFormSearchState(
           teamFailureOrSuccess: none(),
-          teamSearch: SearchText(teamSearch),
+          teamSearch: SearchTerm(teamSearch),
           isSearching: true,
         ),
         TeamFormSearchState(
           teamFailureOrSuccess: optionOf(left(failure)),
-          teamSearch: SearchText(teamSearch),
+          teamSearch: SearchTerm(teamSearch),
           isSearching: false,
         ),
       ];

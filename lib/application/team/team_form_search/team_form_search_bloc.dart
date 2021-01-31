@@ -31,7 +31,7 @@ class TeamFormSearchBloc extends Bloc<TeamFormSearchEvent, TeamFormSearchState> 
       changeTeam: (e) async* {
         yield state.copyWith(
           teamFailureOrSuccess: none(),
-          teamSearch: SearchText(e.teamSearch),
+          teamSearch: SearchTerm(e.teamSearch),
         );
       },
       search: (e) async* {

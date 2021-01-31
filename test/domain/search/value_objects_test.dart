@@ -4,12 +4,12 @@ import 'package:teamapp/domain/core/value_failures.dart';
 import 'package:teamapp/domain/search/value_objects.dart';
 
 void main() {
-  group('SearchText', () {
+  group('SearchTerm', () {
     test(
-      'Should validate text without problem',
+      'Should validate text with success',
       () {
         const input = 'Sao Paulo';
-        final inputValidate = SearchText(input);
+        final inputValidate = SearchTerm(input);
         expect(inputValidate.value, equals(right(input)));
       },
     );
@@ -18,7 +18,7 @@ void main() {
       'Should validate empty text',
       () {
         const input = ' ';
-        final inputValidate = SearchText(input);
+        final inputValidate = SearchTerm(input);
         expect(
           inputValidate.value,
           equals(
@@ -32,7 +32,7 @@ void main() {
       'Should validate invalid text',
       () {
         const input = '*&@!';
-        final inputValidate = SearchText(input);
+        final inputValidate = SearchTerm(input);
         expect(
           inputValidate.value,
           equals(

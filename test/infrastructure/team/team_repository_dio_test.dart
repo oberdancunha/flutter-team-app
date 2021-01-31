@@ -19,7 +19,7 @@ void main() {
   MockNetworkInfo mockNetworkInfo;
   MockTeamDataSource mockTeamDataSource;
   String teamSearch;
-  final teamDetails = TeamDto.fromJson(jsonReader('team.json')).toDomain();
+  final teamDetails = TeamDto.fromJson(jsonReader('team/team.json')).toDomain();
 
   setUp(() {
     mockNetworkInfo = MockNetworkInfo();
