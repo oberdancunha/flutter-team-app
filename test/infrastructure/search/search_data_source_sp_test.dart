@@ -5,19 +5,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teamapp/core/errors/exceptions/database_exception.dart';
 import 'package:teamapp/infrastructure/search/search_data_source_sp.dart';
 
+import '../../data/json_reader.dart';
+
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 void main() {
   MockSharedPreferences mockSharedPreferences;
   SearchDataSourceSP searchDataSourceSP;
   const searchHistoryKey = 'searchHistory';
-  final searchHistory = [
-    '{"id": 0, "term": "Sao Paulo"}',
-    '{"id": 1, "term": "Sao Paulo"}',
-    '{"id": 2, "term": "Sao Paulo"}',
-    '{"id": 3, "term": "Sao Paulo"}',
-    '{"id": 4, "term": "Sao Paulo"}'
-  ];
+  final searchHistory = jsonReaderList('search/search_history.json')
+      .map(
+        (history) => history.toString(),
+      )
+      .toList();
 
   setUp(() {
     TestWidgetsFlutterBinding.ensureInitialized();

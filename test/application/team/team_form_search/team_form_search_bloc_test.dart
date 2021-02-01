@@ -51,7 +51,7 @@ void main() {
   }
 
   test(
-    'Should call for the sanitization of excessive spaces',
+    'Should call ValueSanitize to remove excessive white spaces',
     () async {
       setUpMockValueSanitize();
       setUpBlocEvents();

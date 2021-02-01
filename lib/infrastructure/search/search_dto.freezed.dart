@@ -17,10 +17,10 @@ class _$SearchDtoTearOff {
   const _$SearchDtoTearOff();
 
 // ignore: unused_element
-  _SearchDto call({@required int position, @required String term}) {
+  _SearchDto call({@required int position, @required String teamSearch}) {
     return _SearchDto(
       position: position,
-      term: term,
+      teamSearch: teamSearch,
     );
   }
 
@@ -37,7 +37,7 @@ const $SearchDto = _$SearchDtoTearOff();
 /// @nodoc
 mixin _$SearchDto {
   int get position;
-  String get term;
+  String get teamSearch;
 
   Map<String, dynamic> toJson();
   $SearchDtoCopyWith<SearchDto> get copyWith;
@@ -47,7 +47,7 @@ mixin _$SearchDto {
 abstract class $SearchDtoCopyWith<$Res> {
   factory $SearchDtoCopyWith(SearchDto value, $Res Function(SearchDto) then) =
       _$SearchDtoCopyWithImpl<$Res>;
-  $Res call({int position, String term});
+  $Res call({int position, String teamSearch});
 }
 
 /// @nodoc
@@ -61,11 +61,12 @@ class _$SearchDtoCopyWithImpl<$Res> implements $SearchDtoCopyWith<$Res> {
   @override
   $Res call({
     Object position = freezed,
-    Object term = freezed,
+    Object teamSearch = freezed,
   }) {
     return _then(_value.copyWith(
       position: position == freezed ? _value.position : position as int,
-      term: term == freezed ? _value.term : term as String,
+      teamSearch:
+          teamSearch == freezed ? _value.teamSearch : teamSearch as String,
     ));
   }
 }
@@ -76,7 +77,7 @@ abstract class _$SearchDtoCopyWith<$Res> implements $SearchDtoCopyWith<$Res> {
           _SearchDto value, $Res Function(_SearchDto) then) =
       __$SearchDtoCopyWithImpl<$Res>;
   @override
-  $Res call({int position, String term});
+  $Res call({int position, String teamSearch});
 }
 
 /// @nodoc
@@ -91,11 +92,12 @@ class __$SearchDtoCopyWithImpl<$Res> extends _$SearchDtoCopyWithImpl<$Res>
   @override
   $Res call({
     Object position = freezed,
-    Object term = freezed,
+    Object teamSearch = freezed,
   }) {
     return _then(_SearchDto(
       position: position == freezed ? _value.position : position as int,
-      term: term == freezed ? _value.term : term as String,
+      teamSearch:
+          teamSearch == freezed ? _value.teamSearch : teamSearch as String,
     ));
   }
 }
@@ -104,9 +106,9 @@ class __$SearchDtoCopyWithImpl<$Res> extends _$SearchDtoCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_SearchDto extends _SearchDto {
-  _$_SearchDto({@required this.position, @required this.term})
+  _$_SearchDto({@required this.position, @required this.teamSearch})
       : assert(position != null),
-        assert(term != null),
+        assert(teamSearch != null),
         super._();
 
   factory _$_SearchDto.fromJson(Map<String, dynamic> json) =>
@@ -115,11 +117,11 @@ class _$_SearchDto extends _SearchDto {
   @override
   final int position;
   @override
-  final String term;
+  final String teamSearch;
 
   @override
   String toString() {
-    return 'SearchDto(position: $position, term: $term)';
+    return 'SearchDto(position: $position, teamSearch: $teamSearch)';
   }
 
   @override
@@ -129,15 +131,16 @@ class _$_SearchDto extends _SearchDto {
             (identical(other.position, position) ||
                 const DeepCollectionEquality()
                     .equals(other.position, position)) &&
-            (identical(other.term, term) ||
-                const DeepCollectionEquality().equals(other.term, term)));
+            (identical(other.teamSearch, teamSearch) ||
+                const DeepCollectionEquality()
+                    .equals(other.teamSearch, teamSearch)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(position) ^
-      const DeepCollectionEquality().hash(term);
+      const DeepCollectionEquality().hash(teamSearch);
 
   @override
   _$SearchDtoCopyWith<_SearchDto> get copyWith =>
@@ -151,7 +154,7 @@ class _$_SearchDto extends _SearchDto {
 
 abstract class _SearchDto extends SearchDto {
   _SearchDto._() : super._();
-  factory _SearchDto({@required int position, @required String term}) =
+  factory _SearchDto({@required int position, @required String teamSearch}) =
       _$_SearchDto;
 
   factory _SearchDto.fromJson(Map<String, dynamic> json) =
@@ -160,7 +163,7 @@ abstract class _SearchDto extends SearchDto {
   @override
   int get position;
   @override
-  String get term;
+  String get teamSearch;
   @override
   _$SearchDtoCopyWith<_SearchDto> get copyWith;
 }

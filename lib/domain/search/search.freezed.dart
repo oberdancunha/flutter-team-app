@@ -14,10 +14,10 @@ class _$SearchTearOff {
   const _$SearchTearOff();
 
 // ignore: unused_element
-  _Search call({@required int position, @required SearchTerm term}) {
+  _Search call({@required int position, @required SearchTerm teamSearch}) {
     return _Search(
       position: position,
-      term: term,
+      teamSearch: teamSearch,
     );
   }
 }
@@ -29,7 +29,7 @@ const $Search = _$SearchTearOff();
 /// @nodoc
 mixin _$Search {
   int get position;
-  SearchTerm get term;
+  SearchTerm get teamSearch;
 
   $SearchCopyWith<Search> get copyWith;
 }
@@ -38,7 +38,7 @@ mixin _$Search {
 abstract class $SearchCopyWith<$Res> {
   factory $SearchCopyWith(Search value, $Res Function(Search) then) =
       _$SearchCopyWithImpl<$Res>;
-  $Res call({int position, SearchTerm term});
+  $Res call({int position, SearchTerm teamSearch});
 }
 
 /// @nodoc
@@ -52,11 +52,12 @@ class _$SearchCopyWithImpl<$Res> implements $SearchCopyWith<$Res> {
   @override
   $Res call({
     Object position = freezed,
-    Object term = freezed,
+    Object teamSearch = freezed,
   }) {
     return _then(_value.copyWith(
       position: position == freezed ? _value.position : position as int,
-      term: term == freezed ? _value.term : term as SearchTerm,
+      teamSearch:
+          teamSearch == freezed ? _value.teamSearch : teamSearch as SearchTerm,
     ));
   }
 }
@@ -66,7 +67,7 @@ abstract class _$SearchCopyWith<$Res> implements $SearchCopyWith<$Res> {
   factory _$SearchCopyWith(_Search value, $Res Function(_Search) then) =
       __$SearchCopyWithImpl<$Res>;
   @override
-  $Res call({int position, SearchTerm term});
+  $Res call({int position, SearchTerm teamSearch});
 }
 
 /// @nodoc
@@ -81,30 +82,31 @@ class __$SearchCopyWithImpl<$Res> extends _$SearchCopyWithImpl<$Res>
   @override
   $Res call({
     Object position = freezed,
-    Object term = freezed,
+    Object teamSearch = freezed,
   }) {
     return _then(_Search(
       position: position == freezed ? _value.position : position as int,
-      term: term == freezed ? _value.term : term as SearchTerm,
+      teamSearch:
+          teamSearch == freezed ? _value.teamSearch : teamSearch as SearchTerm,
     ));
   }
 }
 
 /// @nodoc
 class _$_Search extends _Search {
-  _$_Search({@required this.position, @required this.term})
+  _$_Search({@required this.position, @required this.teamSearch})
       : assert(position != null),
-        assert(term != null),
+        assert(teamSearch != null),
         super._();
 
   @override
   final int position;
   @override
-  final SearchTerm term;
+  final SearchTerm teamSearch;
 
   @override
   String toString() {
-    return 'Search(position: $position, term: $term)';
+    return 'Search(position: $position, teamSearch: $teamSearch)';
   }
 
   @override
@@ -114,15 +116,16 @@ class _$_Search extends _Search {
             (identical(other.position, position) ||
                 const DeepCollectionEquality()
                     .equals(other.position, position)) &&
-            (identical(other.term, term) ||
-                const DeepCollectionEquality().equals(other.term, term)));
+            (identical(other.teamSearch, teamSearch) ||
+                const DeepCollectionEquality()
+                    .equals(other.teamSearch, teamSearch)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(position) ^
-      const DeepCollectionEquality().hash(term);
+      const DeepCollectionEquality().hash(teamSearch);
 
   @override
   _$SearchCopyWith<_Search> get copyWith =>
@@ -131,13 +134,13 @@ class _$_Search extends _Search {
 
 abstract class _Search extends Search {
   _Search._() : super._();
-  factory _Search({@required int position, @required SearchTerm term}) =
+  factory _Search({@required int position, @required SearchTerm teamSearch}) =
       _$_Search;
 
   @override
   int get position;
   @override
-  SearchTerm get term;
+  SearchTerm get teamSearch;
   @override
   _$SearchCopyWith<_Search> get copyWith;
 }

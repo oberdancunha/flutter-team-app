@@ -37,13 +37,13 @@ class SearchRepository implements ISearchRepository {
   @override
   KtList<Search> filter({
     @required KtList<Search> searchHistory,
-    @required String term,
+    @required String teamSearch,
   }) {
     return searchHistory
         .reversed()
         .asList()
         .where(
-          (searchHistory) => searchHistory.term.getOrError().startsWith(term),
+          (searchHistory) => searchHistory.teamSearch.getOrError().startsWith(teamSearch),
         )
         .toImmutableList();
   }
@@ -51,7 +51,7 @@ class SearchRepository implements ISearchRepository {
   @override
   Future<Either<SearchFailure, KtList<Search>>> insert({
     @required KtList<Search> searchHistory,
-    @required String term,
+    @required String teamSearch,
   }) async {
     try {
       final searchHistoryDto = searchHistory
@@ -61,7 +61,7 @@ class SearchRepository implements ISearchRepository {
           .asList();
       final searchHistoryModified = _sortSearchHistory(
         searchHistory: searchHistoryDto,
-        term: term,
+        teamSearch: teamSearch,
       );
       await searchDataSource.insert(
         searchHistoryModified
@@ -84,17 +84,17 @@ class SearchRepository implements ISearchRepository {
 
   List<SearchDto> _sortSearchHistory({
     @required List<SearchDto> searchHistory,
-    @required String term,
+    @required String teamSearch,
   }) {
-    if (searchHistory.contains(term)) {
+    if (searchHistory.contains(teamSearch)) {
       searchHistory.removeWhere(
-        (history) => history.term.toLowerCase() == term.toLowerCase(),
+        (history) => history.teamSearch.toLowerCase() == teamSearch.toLowerCase(),
       );
     }
     searchHistory.add(
       SearchDto(
         position: searchHistory.isNotEmpty ? searchHistory.last.position + 1 : 0,
-        term: term,
+        teamSearch: teamSearch,
       ),
     );
     if (searchHistory.length > searchHistoryLength) {

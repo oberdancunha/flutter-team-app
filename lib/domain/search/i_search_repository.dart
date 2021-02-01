@@ -9,10 +9,10 @@ abstract class ISearchRepository {
   Future<Either<SearchFailure, KtList<Search>>> list();
   KtList<Search> filter({
     @required KtList<Search> searchHistory,
-    @required String term,
+    @required String teamSearch,
   });
   Future<Either<SearchFailure, KtList<Search>>> insert({
     @required KtList<Search> searchHistory,
-    @required String term,
+    @required String teamSearch,
   });
 }

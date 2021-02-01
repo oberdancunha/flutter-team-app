@@ -47,7 +47,7 @@ void main() {
         () {
           final domain = Search(
             position: 0,
-            term: SearchTerm("Sao Paulo"),
+            teamSearch: SearchTerm("Sao Paulo"),
           );
           final result = searchDto.toDomain();
           expect(result, equals(domain));

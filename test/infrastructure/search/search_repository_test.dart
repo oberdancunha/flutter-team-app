@@ -12,18 +12,19 @@ import 'package:teamapp/domain/search/value_objects.dart';
 import 'package:teamapp/infrastructure/search/search_dto.dart';
 import 'package:teamapp/infrastructure/search/search_repository.dart';
 
+import '../../data/json_reader.dart';
+
 class MockSearchDataSource extends Mock implements ISearchDataSource {}
 
 void main() {
   MockSearchDataSource mockSearchDataSource;
   SearchRepository searchRepository;
-  final searchHistory = KtList.of(
-    Search(position: 0, term: SearchTerm('Sao Paulo')),
-    Search(position: 1, term: SearchTerm('AC Milan')),
-    Search(position: 2, term: SearchTerm('Real Madrid')),
-    Search(position: 3, term: SearchTerm('Barcelona')),
-    Search(position: 4, term: SearchTerm('River Plate')),
-  );
+  final searchHistoryJson = jsonReaderList('search/search_history.json');
+  final searchHistory = searchHistoryJson
+      .map(
+        (history) => SearchDto.fromJson(history as Map<String, dynamic>).toDomain(),
+      )
+      .toImmutableList();
 
   setUp(
     () {
@@ -75,12 +76,12 @@ void main() {
         const term = 'Sao';
         final searchHistoryFiltered = searchRepository.filter(
           searchHistory: searchHistory,
-          term: term,
+          teamSearch: term,
         );
         expect(
           searchHistoryFiltered,
           equals(KtList.of(
-            Search(position: 0, term: SearchTerm('Sao Paulo')),
+            Search(position: 0, teamSearch: SearchTerm('Sao Paulo')),
           )),
         );
       },
@@ -92,13 +93,13 @@ void main() {
         const term = 'R';
         final searchHistoryFiltered = searchRepository.filter(
           searchHistory: searchHistory,
-          term: term,
+          teamSearch: term,
         );
         expect(
           searchHistoryFiltered,
           equals(KtList.of(
-            Search(position: 4, term: SearchTerm('River Plate')),
-            Search(position: 2, term: SearchTerm('Real Madrid')),
+            Search(position: 4, teamSearch: SearchTerm('River Plate')),
+            Search(position: 2, teamSearch: SearchTerm('Real Madrid')),
           )),
         );
       },
@@ -110,15 +111,15 @@ void main() {
       '\tShould move an existing term to the bottom of the search history list',
       () async {
         final searchHistoryModifiedExpected = KtList.of(
-          Search(position: 1, term: SearchTerm('AC Milan')),
-          Search(position: 2, term: SearchTerm('Real Madrid')),
-          Search(position: 3, term: SearchTerm('Barcelona')),
-          Search(position: 4, term: SearchTerm('River Plate')),
-          Search(position: 5, term: SearchTerm('Sao Paulo')),
+          Search(position: 1, teamSearch: SearchTerm('AC Milan')),
+          Search(position: 2, teamSearch: SearchTerm('Real Madrid')),
+          Search(position: 3, teamSearch: SearchTerm('Barcelona')),
+          Search(position: 4, teamSearch: SearchTerm('River Plate')),
+          Search(position: 5, teamSearch: SearchTerm('Sao Paulo')),
         );
         final searchHistoryModified = await searchRepository.insert(
           searchHistory: searchHistory,
-          term: 'Sao Paulo',
+          teamSearch: 'Sao Paulo',
         );
         expect(searchHistoryModified, equals(right(searchHistoryModifiedExpected)));
       },
@@ -129,15 +130,15 @@ void main() {
     contains the maximum number of terms''',
       () async {
         final searchHistoryModifiedExpected = KtList.of(
-          Search(position: 1, term: SearchTerm('AC Milan')),
-          Search(position: 2, term: SearchTerm('Real Madrid')),
-          Search(position: 3, term: SearchTerm('Barcelona')),
-          Search(position: 4, term: SearchTerm('River Plate')),
-          Search(position: 5, term: SearchTerm('Boca Juniors')),
+          Search(position: 1, teamSearch: SearchTerm('AC Milan')),
+          Search(position: 2, teamSearch: SearchTerm('Real Madrid')),
+          Search(position: 3, teamSearch: SearchTerm('Barcelona')),
+          Search(position: 4, teamSearch: SearchTerm('River Plate')),
+          Search(position: 5, teamSearch: SearchTerm('Boca Juniors')),
         );
         final searchHistoryModified = await searchRepository.insert(
           searchHistory: searchHistory,
-          term: 'Boca Juniors',
+          teamSearch: 'Boca Juniors',
         );
         expect(searchHistoryModified, equals(right(searchHistoryModifiedExpected)));
       },
@@ -147,11 +148,11 @@ void main() {
       '\tShould add a new term to the bottom of the search history list when the list is empty',
       () async {
         final searchHistoryModifiedExpected = KtList.of(
-          Search(position: 0, term: SearchTerm('Sao Paulo')),
+          Search(position: 0, teamSearch: SearchTerm('Sao Paulo')),
         );
         final searchHistoryModified = await searchRepository.insert(
           searchHistory: const KtList.empty(),
-          term: 'Sao Paulo',
+          teamSearch: 'Sao Paulo',
         );
         expect(searchHistoryModified, equals(right(searchHistoryModifiedExpected)));
       },
@@ -163,7 +164,7 @@ void main() {
         when(mockSearchDataSource.insert(any)).thenThrow(DatabaseException());
         final history = await searchRepository.insert(
           searchHistory: searchHistory,
-          term: 'Sao Paulo',
+          teamSearch: 'Sao Paulo',
         );
         expect(history, equals(left(SearchFailure.databaseError())));
       },

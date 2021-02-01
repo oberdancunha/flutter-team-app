@@ -13,7 +13,7 @@ abstract class SearchDto with _$SearchDto {
 
   factory SearchDto({
     @required int position,
-    @required String term,
+    @required String teamSearch,
   }) = _SearchDto;
 
   factory SearchDto.fromJson(Map<String, dynamic> searchHistoryJson) =>
@@ -21,12 +21,12 @@ abstract class SearchDto with _$SearchDto {
 
   factory SearchDto.fromDomain(Search searchHistory) => SearchDto(
         position: searchHistory.position,
-        term: searchHistory.term.getOrError(),
+        teamSearch: searchHistory.teamSearch.getOrError(),
       );
 
   Search toDomain() => Search(
         position: position,
-        term: SearchTerm(term),
+        teamSearch: SearchTerm(teamSearch),
       );
 }
 

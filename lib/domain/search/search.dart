@@ -9,11 +9,11 @@ abstract class Search with _$Search {
 
   factory Search({
     @required int position,
-    @required SearchTerm term,
+    @required SearchTerm teamSearch,
   }) = _Search;
 
   factory Search.empty() => Search(
         position: 0,
-        term: SearchTerm(''),
+        teamSearch: SearchTerm(''),
       );
 }
