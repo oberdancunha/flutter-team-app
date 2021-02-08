@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class TeamNotFound extends StatelessWidget {
+class TeamNotFoundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

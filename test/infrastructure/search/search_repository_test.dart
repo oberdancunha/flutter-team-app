@@ -25,6 +25,19 @@ void main() {
         (history) => SearchDto.fromJson(history as Map<String, dynamic>).toDomain(),
       )
       .toImmutableList();
+  final searchHistoryIncompleteJson = jsonReaderList('search/search_history_incomplete.json');
+  final searchHistoryIncomplete = searchHistoryIncompleteJson
+      .map(
+        (history) => SearchDto.fromJson(history as Map<String, dynamic>).toDomain(),
+      )
+      .toImmutableList();
+
+  setUp(
+    () {
+      mockSearchDataSource = MockSearchDataSource();
+      searchRepository = SearchRepository(mockSearchDataSource);
+    },
+  );
 
   setUp(
     () {
@@ -35,7 +48,7 @@ void main() {
 
   group('All\n', () {
     test(
-      '\tShould get all search history return success',
+      '\tShould list search history inverted with success',
       () async {
         when(mockSearchDataSource.list()).thenAnswer(
           (_) async => searchHistory
@@ -81,7 +94,7 @@ void main() {
         expect(
           searchHistoryFiltered,
           equals(KtList.of(
-            Search(position: 0, teamSearch: SearchTerm('Sao Paulo')),
+            Search(position: 4, teamSearch: SearchTerm('Sao Paulo')),
           )),
         );
       },
@@ -98,28 +111,46 @@ void main() {
         expect(
           searchHistoryFiltered,
           equals(KtList.of(
-            Search(position: 4, teamSearch: SearchTerm('River Plate')),
             Search(position: 2, teamSearch: SearchTerm('Real Madrid')),
+            Search(position: 0, teamSearch: SearchTerm('River Plate')),
           )),
         );
       },
     );
   });
 
-  group('Add\n', () {
+  group('Insert\n', () {
     test(
-      '\tShould move an existing term to the bottom of the search history list',
+      '''\tShould move an existing term to the bottom of the search history when the list already 
+      contains the maximum number of terms''',
       () async {
-        final searchHistoryModifiedExpected = KtList.of(
-          Search(position: 1, teamSearch: SearchTerm('AC Milan')),
-          Search(position: 2, teamSearch: SearchTerm('Real Madrid')),
-          Search(position: 3, teamSearch: SearchTerm('Barcelona')),
-          Search(position: 4, teamSearch: SearchTerm('River Plate')),
-          Search(position: 5, teamSearch: SearchTerm('Sao Paulo')),
-        );
+        final searchHistoryModifiedExpected = [
+          SearchDto(position: 4, teamSearch: 'River Plate').toDomain(),
+          SearchDto(position: 3, teamSearch: 'Sao Paulo').toDomain(),
+          SearchDto(position: 2, teamSearch: 'AC Milan').toDomain(),
+          SearchDto(position: 1, teamSearch: 'Real Madrid').toDomain(),
+          SearchDto(position: 0, teamSearch: 'Barcelona').toDomain(),
+        ].toImmutableList();
         final searchHistoryModified = await searchRepository.insert(
           searchHistory: searchHistory,
-          teamSearch: 'Sao Paulo',
+          teamSearch: 'River Plate',
+        );
+        expect(searchHistoryModified, equals(right(searchHistoryModifiedExpected)));
+      },
+    );
+
+    test(
+      '''\tShould move an existing term to the bottom of the search history when the list not 
+      contains the maximum number of terms''',
+      () async {
+        final searchHistoryModifiedExpected = [
+          SearchDto(position: 2, teamSearch: 'River Plate').toDomain(),
+          SearchDto(position: 1, teamSearch: 'Sao Paulo').toDomain(),
+          SearchDto(position: 0, teamSearch: 'AC Milan').toDomain(),
+        ].toImmutableList();
+        final searchHistoryModified = await searchRepository.insert(
+          searchHistory: searchHistoryIncomplete,
+          teamSearch: 'River Plate',
         );
         expect(searchHistoryModified, equals(right(searchHistoryModifiedExpected)));
       },
@@ -129,13 +160,13 @@ void main() {
       '''\tShould add a new term to the bottom of the search history list when the list already 
     contains the maximum number of terms''',
       () async {
-        final searchHistoryModifiedExpected = KtList.of(
-          Search(position: 1, teamSearch: SearchTerm('AC Milan')),
-          Search(position: 2, teamSearch: SearchTerm('Real Madrid')),
-          Search(position: 3, teamSearch: SearchTerm('Barcelona')),
-          Search(position: 4, teamSearch: SearchTerm('River Plate')),
-          Search(position: 5, teamSearch: SearchTerm('Boca Juniors')),
-        );
+        final searchHistoryModifiedExpected = [
+          SearchDto(position: 4, teamSearch: 'Boca Juniors').toDomain(),
+          SearchDto(position: 3, teamSearch: 'Sao Paulo').toDomain(),
+          SearchDto(position: 2, teamSearch: 'AC Milan').toDomain(),
+          SearchDto(position: 1, teamSearch: 'Real Madrid').toDomain(),
+          SearchDto(position: 0, teamSearch: 'Barcelona').toDomain(),
+        ].toImmutableList();
         final searchHistoryModified = await searchRepository.insert(
           searchHistory: searchHistory,
           teamSearch: 'Boca Juniors',
@@ -147,9 +178,9 @@ void main() {
     test(
       '\tShould add a new term to the bottom of the search history list when the list is empty',
       () async {
-        final searchHistoryModifiedExpected = KtList.of(
-          Search(position: 0, teamSearch: SearchTerm('Sao Paulo')),
-        );
+        final searchHistoryModifiedExpected = [
+          SearchDto(position: 0, teamSearch: 'Sao Paulo').toDomain(),
+        ].toImmutableList();
         final searchHistoryModified = await searchRepository.insert(
           searchHistory: const KtList.empty(),
           teamSearch: 'Sao Paulo',

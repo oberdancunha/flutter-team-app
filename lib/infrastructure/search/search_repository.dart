@@ -40,7 +40,6 @@ class SearchRepository implements ISearchRepository {
     @required String teamSearch,
   }) {
     return searchHistory
-        .reversed()
         .asList()
         .where(
           (searchHistory) => searchHistory.teamSearch.getOrError().startsWith(teamSearch),
@@ -55,18 +54,19 @@ class SearchRepository implements ISearchRepository {
   }) async {
     try {
       final searchHistoryDto = searchHistory
+          .asList()
           .map(
             (history) => SearchDto.fromDomain(history),
           )
-          .asList();
+          .toList();
       final searchHistoryModified = _sortSearchHistory(
-        searchHistory: searchHistoryDto,
+        searchHistory: searchHistoryDto.reversed.toList(),
         teamSearch: teamSearch,
       );
       await searchDataSource.insert(
         searchHistoryModified
             .map(
-              (history) => json.encode(searchHistoryModified),
+              (history) => json.encode(history),
             )
             .toList(),
       );
@@ -86,14 +86,18 @@ class SearchRepository implements ISearchRepository {
     @required List<SearchDto> searchHistory,
     @required String teamSearch,
   }) {
-    if (searchHistory.contains(teamSearch)) {
+    final contains = searchHistory.singleWhere(
+      (history) => history.teamSearch.toLowerCase() == teamSearch.toLowerCase(),
+      orElse: () => null,
+    );
+    if (contains != null) {
       searchHistory.removeWhere(
         (history) => history.teamSearch.toLowerCase() == teamSearch.toLowerCase(),
       );
     }
     searchHistory.add(
       SearchDto(
-        position: searchHistory.isNotEmpty ? searchHistory.last.position + 1 : 0,
+        position: 0,
         teamSearch: teamSearch,
       ),
     );
@@ -103,6 +107,15 @@ class SearchRepository implements ISearchRepository {
         searchHistory.length - searchHistoryLength,
       );
     }
-    return searchHistory;
+    int position = searchHistory.length;
+    final searchHistorySorted = searchHistory.reversed
+        .map(
+          (history) => SearchDto(
+            position: --position,
+            teamSearch: history.teamSearch,
+          ),
+        )
+        .toList();
+    return searchHistorySorted;
   }
 }

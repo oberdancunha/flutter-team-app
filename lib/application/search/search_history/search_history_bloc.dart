@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kt_dart/kt.dart';
+import 'package:teamapp/domain/search/value_objects.dart';
 
 import '../../../domain/core/value_sanitize.dart';
 import '../../../domain/search/i_search_repository.dart';
@@ -32,29 +33,43 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
         final searchHistory = await searchRepository.list();
         yield searchHistory.fold(
           (searchFailure) => SearchHistoryState.failure(searchFailure),
-          (searchHistory) => SearchHistoryState.success(searchHistory),
+          (searchHistory) => SearchHistoryState.success(
+            searchHistory,
+            searchHistory,
+          ),
         );
       },
       filter: (e) async* {
         yield const SearchHistoryState.load();
         final teamSearch = valueSanitize.removeExcessiveWhiteSpaces(e.teamSearch);
         final searchHistory = searchRepository.filter(
-          searchHistory: e.searchHistory,
+          searchHistory: e.searchHistoryPersistent,
           teamSearch: teamSearch,
         );
-        yield SearchHistoryState.success(searchHistory);
+        yield SearchHistoryState.success(
+          searchHistory,
+          e.searchHistoryPersistent,
+        );
       },
       insert: (e) async* {
-        yield const SearchHistoryState.load();
-        final teamSearch = valueSanitize.removeExcessiveWhiteSpaces(e.teamSearch);
-        final insert = await searchRepository.insert(
-          searchHistory: e.searchHistory,
-          teamSearch: teamSearch,
-        );
-        yield insert.fold(
-          (searchFailure) => SearchHistoryState.failure(searchFailure),
-          (searchHistory) => SearchHistoryState.success(searchHistory),
-        );
+        final teamSearchValidate = SearchTerm(e.teamSearch);
+        if (teamSearchValidate.isValid()) {
+          yield const SearchHistoryState.load();
+          final teamSearch = valueSanitize.removeExcessiveWhiteSpaces(
+            teamSearchValidate.getOrError(),
+          );
+          final insert = await searchRepository.insert(
+            searchHistory: e.searchHistoryPersistent,
+            teamSearch: teamSearch,
+          );
+          yield insert.fold(
+            (searchFailure) => SearchHistoryState.failure(searchFailure),
+            (searchHistory) => SearchHistoryState.success(
+              searchHistory,
+              searchHistory,
+            ),
+          );
+        }
       },
     );
   }

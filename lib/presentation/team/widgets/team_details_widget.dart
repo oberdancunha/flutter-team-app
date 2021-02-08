@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../domain/team/team.dart';
 
-class TeamDetails extends StatelessWidget {
+class TeamDetailsWidget extends StatelessWidget {
   final Team team;
 
-  const TeamDetails({
+  const TeamDetailsWidget({
     Key key,
     @required this.team,
   }) : super(key: key);

@@ -4,13 +4,15 @@ import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:teamapp/presentation/core/app_module.dart';
+import 'package:teamapp/presentation/core/app_search_team.dart';
 import 'package:teamapp/presentation/core/app_widget.dart';
-import 'package:teamapp/presentation/team/widget/team_details.dart';
-import 'package:teamapp/presentation/team/widget/team_form.dart';
-import 'package:teamapp/presentation/team/widget/team_form_result.dart';
-import 'package:teamapp/presentation/team/widget/team_not_found.dart';
-import 'package:teamapp/presentation/team/widget/team_result.dart';
-import 'package:teamapp/presentation/team/widget/team_result_details.dart';
+import 'package:teamapp/presentation/search/search_page.dart';
+import 'package:teamapp/presentation/search/widgets/search_form_widget.dart';
+import 'package:teamapp/presentation/search/widgets/search_history_body_widget.dart';
+import 'package:teamapp/presentation/search/widgets/search_history_list_widget.dart';
+import 'package:teamapp/presentation/team/team_page.dart';
+import 'package:teamapp/presentation/team/widgets/team_details_widget.dart';
+import 'package:teamapp/presentation/team/widgets/team_not_found_widget.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -20,20 +22,25 @@ void main() {
     @required WidgetTester tester,
     @required String inputText,
   }) async {
-    initModule(AppModule(), initialModule: true);
+    initModule(
+      AppModule(),
+      initialModule: true,
+    );
     await tester.pumpWidget(AppWidget());
     await tester.enterText(
       find.byKey(const Key(teamSearchTextField)),
       inputText,
     );
     await tester.pumpAndSettle();
-    expect(find.byType(TeamFormResult), findsOneWidget);
-    expect(find.byType(TeamForm), findsOneWidget);
-    expect(find.byType(TeamResult), findsOneWidget);
-    expect(find.byType(TeamResultDetails), findsNothing);
-    expect(find.byType(TeamNotFound), findsNothing);
-    expect(find.byType(TeamDetails), findsNothing);
-    expect(find.widgetWithText(TextFormField, inputText), findsOneWidget);
+    expect(find.byType(AppSearchTeam), findsOneWidget);
+    expect(find.byType(SearchPage), findsOneWidget);
+    expect(find.byType(SearchFormWidget), findsOneWidget);
+    expect(find.byType(SearchHistoryBodyWidget), findsNothing);
+    expect(find.byType(SearchHistoryListWidget), findsNothing);
+    expect(find.byType(TeamPage), findsNothing);
+    expect(find.byType(TeamNotFoundWidget), findsNothing);
+    expect(find.byType(TeamDetailsWidget), findsNothing);
+    expect(find.widgetWithText(SearchPage, inputText), findsOneWidget);
     Modular.removeModule(AppModule());
   }
 

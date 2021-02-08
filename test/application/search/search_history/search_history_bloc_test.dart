@@ -78,7 +78,7 @@ void main() {
               setUpMockSearchHistoryListSuccess();
               final expected = [
                 const SearchHistoryState.load(),
-                SearchHistoryState.success(searchHistory),
+                SearchHistoryState.success(searchHistory, searchHistory),
               ];
               expectLater(
                 searchHistoryBloc,
@@ -133,7 +133,7 @@ void main() {
     'Filter\n',
     () {
       void setUpBlocFilterEvent() {
-        searchHistoryBloc.add(SearchHistoryEvent.filter(searchHistory, teamSearch));
+        searchHistoryBloc.add(SearchHistoryEvent.filter(searchHistory, searchHistory, teamSearch));
       }
 
       void setUpMockSearchHistoryFilter() {
@@ -162,7 +162,7 @@ void main() {
           setUpMockSearchHistoryFilter();
           final expected = [
             const SearchHistoryState.load(),
-            SearchHistoryState.success(searchHistory),
+            SearchHistoryState.success(searchHistory, searchHistory),
           ];
           expectLater(
             searchHistoryBloc,
@@ -177,7 +177,7 @@ void main() {
     'Insert\n',
     () {
       void setUpBlocInsertEvent() {
-        searchHistoryBloc.add(SearchHistoryEvent.insert(searchHistory, teamSearch));
+        searchHistoryBloc.add(SearchHistoryEvent.insert(searchHistory, searchHistory, teamSearch));
       }
 
       group('\tInsert Success\n', () {
@@ -221,7 +221,7 @@ void main() {
             setUpMockSearchHistoryInsertSuccess();
             final expected = [
               const SearchHistoryState.load(),
-              SearchHistoryState.success(searchHistory),
+              SearchHistoryState.success(searchHistory, searchHistory),
             ];
             expectLater(
               searchHistoryBloc,

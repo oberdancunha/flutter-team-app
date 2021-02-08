@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' hide Bind;
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -5,51 +6,95 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:kt_dart/kt.dart';
 import 'package:mockito/mockito.dart';
 import 'package:teamapp/config_reader.dart';
+import 'package:teamapp/domain/search/i_search_repository.dart';
+import 'package:teamapp/infrastructure/search/search_dto.dart';
 import 'package:teamapp/presentation/core/app_module.dart';
+import 'package:teamapp/presentation/core/app_search_team.dart';
 import 'package:teamapp/presentation/core/app_widget.dart';
-import 'package:teamapp/presentation/team/widget/team_details.dart';
-import 'package:teamapp/presentation/team/widget/team_form.dart';
-import 'package:teamapp/presentation/team/widget/team_form_result.dart';
-import 'package:teamapp/presentation/team/widget/team_not_found.dart';
-import 'package:teamapp/presentation/team/widget/team_result.dart';
-import 'package:teamapp/presentation/team/widget/team_result_details.dart';
+import 'package:teamapp/presentation/search/search_page.dart';
+import 'package:teamapp/presentation/search/widgets/search_form_widget.dart';
+import 'package:teamapp/presentation/search/widgets/search_history_body_widget.dart';
+import 'package:teamapp/presentation/search/widgets/search_history_list_widget.dart';
+import 'package:teamapp/presentation/team/team_page.dart';
+import 'package:teamapp/presentation/team/widgets/team_details_widget.dart';
+import 'package:teamapp/presentation/team/widgets/team_not_found_widget.dart';
 
 class MockDio extends Mock implements Dio {}
 
 class MockDataConnectionChecker extends Mock implements DataConnectionChecker {}
 
+class MockSearchRepository extends Mock implements ISearchRepository {}
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  const teamSearchTextField = 'team_search_text';
+  const teamSearchTextFieldKey = 'team_search_text';
   MockDio mockDio;
   MockDataConnectionChecker mockDataConnectionChecker;
+  MockSearchRepository mockSearchRepository;
+  const teamSearch = 'Sao Paulo';
+  final searchHistory = [
+    SearchDto(position: 1, teamSearch: teamSearch).toDomain(),
+    SearchDto(position: 0, teamSearch: 'River Plate').toDomain()
+  ].toImmutableList();
 
   setUp(() async {
     await ConfigReader.initialize();
     mockDio = MockDio();
     mockDataConnectionChecker = MockDataConnectionChecker();
+    mockSearchRepository = MockSearchRepository();
   });
 
-  Future<void> searchResult({
+  void setUpMockSearchHistoryList() {
+    when(mockSearchRepository.list()).thenAnswer((_) async => right(searchHistory));
+  }
+
+  void setUpMockSearchHistoryFilter() {
+    final searchHistory = [
+      SearchDto(position: 1, teamSearch: teamSearch).toDomain(),
+    ].toImmutableList();
+    when(mockSearchRepository.filter(
+      searchHistory: anyNamed('searchHistory'),
+      teamSearch: anyNamed('teamSearch'),
+    )).thenReturn(searchHistory);
+  }
+
+  void setUpMockSearchHistoryInsert() {
+    when(mockSearchRepository.insert(
+      searchHistory: anyNamed('searchHistory'),
+      teamSearch: anyNamed('teamSearch'),
+    )).thenAnswer((_) async => right(searchHistory));
+  }
+
+  Future<void> setUpSearchAndTeamDetails({
     @required WidgetTester tester,
   }) async {
-    const inputText = 'Sao Paulo';
+    setUpMockSearchHistoryList();
+    setUpMockSearchHistoryFilter();
+    setUpMockSearchHistoryInsert();
     await tester.pumpWidget(AppWidget());
-    await tester.enterText(
-      find.byKey(const Key(teamSearchTextField)),
-      inputText,
+    await tester.tap(
+      find.byKey(const Key(teamSearchTextFieldKey)),
     );
+    await tester.pumpAndSettle(const Duration(milliseconds: 700));
+    await tester.enterText(
+      find.byKey(const Key(teamSearchTextFieldKey)),
+      teamSearch,
+    );
+    await tester.pumpAndSettle(const Duration(milliseconds: 700));
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pumpAndSettle();
-    expect(find.byType(TeamFormResult), findsOneWidget);
-    expect(find.byType(TeamForm), findsOneWidget);
-    expect(find.byType(TeamResult), findsOneWidget);
-    await expectLater(find.byType(TeamResultDetails), findsNothing);
-    await expectLater(find.byType(TeamNotFound), findsNothing);
-    await expectLater(find.byType(TeamDetails), findsNothing);
-    expect(find.widgetWithText(TextFormField, inputText), findsOneWidget);
+    expect(find.byType(AppSearchTeam), findsOneWidget);
+    expect(find.byType(SearchPage), findsOneWidget);
+    expect(find.byType(SearchFormWidget), findsOneWidget);
+    expect(find.byType(SearchHistoryBodyWidget), findsOneWidget);
+    expect(find.byType(SearchHistoryListWidget), findsOneWidget);
+    await expectLater(find.byType(TeamPage), findsNothing);
+    await expectLater(find.byType(TeamNotFoundWidget), findsNothing);
+    await expectLater(find.byType(TeamDetailsWidget), findsNothing);
+    expect(find.widgetWithText(TextFormField, teamSearch), findsOneWidget);
     Modular.removeModule(AppModule());
   }
 
@@ -59,7 +104,10 @@ void main() {
       initModule(
         AppModule(),
         initialModule: true,
-        changeBinds: [Bind<Dio>((i) => mockDio)],
+        changeBinds: [
+          Bind<Dio>((i) => mockDio),
+          Bind<ISearchRepository>((i) => mockSearchRepository),
+        ],
       );
       when(mockDio.get(
         any,
@@ -71,7 +119,7 @@ void main() {
           statusCode: 404,
         ),
       );
-      await searchResult(tester: tester);
+      await setUpSearchAndTeamDetails(tester: tester);
     },
   );
 
@@ -83,12 +131,13 @@ void main() {
         initialModule: true,
         changeBinds: [
           Bind<DataConnectionChecker>((i) => mockDataConnectionChecker),
+          Bind<ISearchRepository>((i) => mockSearchRepository),
         ],
       );
       when(mockDataConnectionChecker.hasConnection).thenAnswer(
         (_) async => false,
       );
-      await searchResult(tester: tester);
+      await setUpSearchAndTeamDetails(tester: tester);
     },
   );
 }

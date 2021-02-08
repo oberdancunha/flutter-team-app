@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:teamapp/domain/team/team.dart';
 
-import '../../application/team/team_form_search/team_form_search_bloc.dart';
-import 'widget/team_form_result.dart';
+import 'widgets/team_details_widget.dart';
+import 'widgets/team_not_found_widget.dart';
 
 class TeamPage extends StatelessWidget {
-  final TeamFormSearchBloc teamFormSearchBloc;
+  final Team team;
 
   const TeamPage({
     Key key,
-    @required this.teamFormSearchBloc,
+    @required this.team,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: const Text('Team app'),
-      ),
-      body: BlocProvider(
-        create: (context) => teamFormSearchBloc,
-        child: TeamFormResult(),
-      ),
-    );
+    if (team.id == 0) {
+      return TeamNotFoundWidget();
+    } else {
+      return Expanded(child: TeamDetailsWidget(team: team));
+    }
   }
 }

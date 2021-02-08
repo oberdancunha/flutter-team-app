@@ -13,7 +13,8 @@ class SearchDataSourceSP implements ISearchDataSource {
   Future<List<String>> list() async {
     try {
       await _connect();
-      return sharedPreferences.getStringList(searchHistoryKey);
+      final searchHistory = sharedPreferences.getStringList(searchHistoryKey);
+      return searchHistory ?? List.empty();
     } on Exception {
       throw DatabaseException();
     }
@@ -23,7 +24,6 @@ class SearchDataSourceSP implements ISearchDataSource {
   Future<void> insert(List<String> searchHistory) async {
     try {
       await _connect();
-      await _clear();
       final insert = await sharedPreferences.setStringList(
         searchHistoryKey,
         searchHistory,
@@ -35,10 +35,6 @@ class SearchDataSourceSP implements ISearchDataSource {
     } on Exception {
       throw DatabaseException();
     }
-  }
-
-  Future<void> _clear() async {
-    await sharedPreferences.clear();
   }
 
   Future<void> _connect() async {
