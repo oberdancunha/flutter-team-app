@@ -1,19 +1,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:teamapp/application/team/team_form_search/team_form_search_bloc.dart';
+import 'package:teamapp/application/team/team_details/team_details_bloc.dart';
 import 'package:teamapp/domain/core/value_sanitize.dart';
-import 'package:teamapp/domain/search/value_objects.dart';
 import 'package:teamapp/domain/team/i_team_repository.dart';
 import 'package:teamapp/domain/team/team.dart';
 import 'package:teamapp/domain/team/team_failures.dart';
+import 'package:teamapp/domain/team/value_objects.dart';
 
 class MockTeamRepository extends Mock implements ITeamRepository {}
 
 class MockValueSanitize extends Mock implements ValueSanitize {}
 
 void main() {
-  TeamFormSearchBloc teamFormSearchBloc;
+  TeamDetailsBloc teamDetailsBloc;
   MockTeamRepository mockTeamRepository;
   MockValueSanitize mockValueSanitize;
   const teamSearch = 'Sao Paulo';
@@ -28,7 +28,7 @@ void main() {
   setUp(() {
     mockTeamRepository = MockTeamRepository();
     mockValueSanitize = MockValueSanitize();
-    teamFormSearchBloc = TeamFormSearchBloc(
+    teamDetailsBloc = TeamDetailsBloc(
       teamRepository: mockTeamRepository,
       valueSanitize: mockValueSanitize,
     );
@@ -37,7 +37,7 @@ void main() {
   test(
     'Should be initial state',
     () {
-      expect(teamFormSearchBloc.state, equals(TeamFormSearchState.initial()));
+      expect(teamDetailsBloc.state, equals(TeamDetailsState.initial()));
     },
   );
 
@@ -46,8 +46,8 @@ void main() {
   }
 
   void setUpBlocEvents() {
-    teamFormSearchBloc.add(const TeamFormSearchEvent.changeTeam(teamSearch));
-    teamFormSearchBloc.add(const TeamFormSearchEvent.search(teamSearch));
+    teamDetailsBloc.add(const TeamDetailsEvent.changeTeam(teamSearch));
+    teamDetailsBloc.add(const TeamDetailsEvent.search(teamSearch));
   }
 
   test(
@@ -97,24 +97,24 @@ void main() {
         () {
           setUpMockResultSuccess();
           final expected = [
-            TeamFormSearchState(
+            TeamDetailsState(
               teamFailureOrSuccess: none(),
               teamSearch: SearchTerm(teamSearch),
               isSearching: false,
             ),
-            TeamFormSearchState(
+            TeamDetailsState(
               teamFailureOrSuccess: none(),
               teamSearch: SearchTerm(teamSearch),
               isSearching: true,
             ),
-            TeamFormSearchState(
+            TeamDetailsState(
               teamFailureOrSuccess: optionOf(right(teamDetails)),
               teamSearch: SearchTerm(teamSearch),
               isSearching: false,
             ),
           ];
           expectLater(
-            teamFormSearchBloc,
+            teamDetailsBloc,
             emitsInOrder(expected),
           );
           setUpBlocEvents();
@@ -141,24 +141,24 @@ void main() {
     void testStateError(TeamFailure failure) {
       setUpMockResultError(failure);
       final expected = [
-        TeamFormSearchState(
+        TeamDetailsState(
           teamFailureOrSuccess: none(),
           teamSearch: SearchTerm(teamSearch),
           isSearching: false,
         ),
-        TeamFormSearchState(
+        TeamDetailsState(
           teamFailureOrSuccess: none(),
           teamSearch: SearchTerm(teamSearch),
           isSearching: true,
         ),
-        TeamFormSearchState(
+        TeamDetailsState(
           teamFailureOrSuccess: optionOf(left(failure)),
           teamSearch: SearchTerm(teamSearch),
           isSearching: false,
         ),
       ];
       expectLater(
-        teamFormSearchBloc,
+        teamDetailsBloc,
         emitsInOrder(expected),
       );
       setUpBlocEvents();

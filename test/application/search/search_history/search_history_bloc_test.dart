@@ -4,33 +4,33 @@ import 'package:kt_dart/kt.dart';
 import 'package:mockito/mockito.dart';
 import 'package:teamapp/application/search/search_history/search_history_bloc.dart';
 import 'package:teamapp/domain/core/value_sanitize.dart';
-import 'package:teamapp/domain/search/i_search_repository.dart';
-import 'package:teamapp/domain/search/search_failures.dart';
-import 'package:teamapp/infrastructure/search/search_dto.dart';
+import 'package:teamapp/domain/search_history/i_search_history_repository.dart';
+import 'package:teamapp/domain/search_history/search_history_failures.dart';
+import 'package:teamapp/infrastructure/search_history/search_history_dto.dart';
 
 import '../../../data/json_reader.dart';
 
-class MockSearchRepository extends Mock implements ISearchRepository {}
+class MockSearchHistoryRepository extends Mock implements ISearchHistoryRepository {}
 
 class MockValueSanitize extends Mock implements ValueSanitize {}
 
 void main() {
-  MockSearchRepository mockSearchRepository;
+  MockSearchHistoryRepository mockSearchHistoryRepository;
   MockValueSanitize mockValueSanitize;
   SearchHistoryBloc searchHistoryBloc;
   const teamSearch = 'Sao Paulo';
   final searchHistoryJson = jsonReaderList('search/search_history.json');
   final searchHistory = searchHistoryJson
       .map(
-        (history) => SearchDto.fromJson(history as Map<String, dynamic>).toDomain(),
+        (history) => SearchHistoryDto.fromJson(history as Map<String, dynamic>).toDomain(),
       )
       .toImmutableList();
 
   setUp(() {
-    mockSearchRepository = MockSearchRepository();
+    mockSearchHistoryRepository = MockSearchHistoryRepository();
     mockValueSanitize = MockValueSanitize();
     searchHistoryBloc = SearchHistoryBloc(
-      searchRepository: mockSearchRepository,
+      searchHistoryRepository: mockSearchHistoryRepository,
       valueSanitize: mockValueSanitize,
     );
   });
@@ -57,7 +57,7 @@ void main() {
         '\tResult success\n',
         () {
           void setUpMockSearchHistoryListSuccess() {
-            when(mockSearchRepository.list()).thenAnswer((_) async => right(searchHistory));
+            when(mockSearchHistoryRepository.list()).thenAnswer((_) async => right(searchHistory));
           }
 
           test(
@@ -65,8 +65,8 @@ void main() {
             () async {
               setUpBlocListEvent();
               setUpMockSearchHistoryListSuccess();
-              await untilCalled(mockSearchRepository.list());
-              final history = await mockSearchRepository.list();
+              await untilCalled(mockSearchHistoryRepository.list());
+              final history = await mockSearchHistoryRepository.list();
               expect(history, equals(right(searchHistory)));
             },
           );
@@ -93,8 +93,8 @@ void main() {
         '\tResult Failure\n',
         () {
           void setUpMockSearchHistoryListFailure() {
-            when(mockSearchRepository.list()).thenAnswer(
-              (_) async => left(SearchFailure.databaseError()),
+            when(mockSearchHistoryRepository.list()).thenAnswer(
+              (_) async => left(SearchHistoryFailure.databaseError()),
             );
           }
 
@@ -103,9 +103,9 @@ void main() {
             () async {
               setUpBlocListEvent();
               setUpMockSearchHistoryListFailure();
-              await untilCalled(mockSearchRepository.list());
-              final history = await mockSearchRepository.list();
-              expect(history, equals(left(SearchFailure.databaseError())));
+              await untilCalled(mockSearchHistoryRepository.list());
+              final history = await mockSearchHistoryRepository.list();
+              expect(history, equals(left(SearchHistoryFailure.databaseError())));
             },
           );
 
@@ -116,7 +116,7 @@ void main() {
               setUpMockSearchHistoryListFailure();
               final expected = [
                 const SearchHistoryState.load(),
-                SearchHistoryState.failure(SearchFailure.databaseError())
+                SearchHistoryState.failure(SearchHistoryFailure.databaseError())
               ];
               expectLater(
                 searchHistoryBloc,
@@ -137,7 +137,7 @@ void main() {
       }
 
       void setUpMockSearchHistoryFilter() {
-        when(mockSearchRepository.filter(
+        when(mockSearchHistoryRepository.filter(
           searchHistory: anyNamed('searchHistory'),
           teamSearch: anyNamed('teamSearch'),
         )).thenReturn(searchHistory);
@@ -182,7 +182,7 @@ void main() {
 
       group('\tInsert Success\n', () {
         void setUpMockSearchHistoryInsertSuccess() {
-          when(mockSearchRepository.insert(
+          when(mockSearchHistoryRepository.insert(
             searchHistory: anyNamed('searchHistory'),
             teamSearch: anyNamed('teamSearch'),
           )).thenAnswer((_) async => right(searchHistory));
@@ -205,7 +205,7 @@ void main() {
             setUpBlocInsertEvent();
             setUpMockValueSanitize();
             setUpMockSearchHistoryInsertSuccess();
-            final history = await mockSearchRepository.insert(
+            final history = await mockSearchHistoryRepository.insert(
               searchHistory: searchHistory,
               teamSearch: teamSearch,
             );
@@ -233,10 +233,10 @@ void main() {
 
       group('\tInsert Failure\n', () {
         void setUpMockSearchHistoryInsertFailure() {
-          when(mockSearchRepository.insert(
+          when(mockSearchHistoryRepository.insert(
             searchHistory: anyNamed('searchHistory'),
             teamSearch: anyNamed('teamSearch'),
-          )).thenAnswer((_) async => left(SearchFailure.databaseError()));
+          )).thenAnswer((_) async => left(SearchHistoryFailure.databaseError()));
         }
 
         test(
@@ -245,11 +245,11 @@ void main() {
             setUpBlocInsertEvent();
             setUpMockValueSanitize();
             setUpMockSearchHistoryInsertFailure();
-            final history = await mockSearchRepository.insert(
+            final history = await mockSearchHistoryRepository.insert(
               searchHistory: searchHistory,
               teamSearch: teamSearch,
             );
-            expect(history, equals(left(SearchFailure.databaseError())));
+            expect(history, equals(left(SearchHistoryFailure.databaseError())));
           },
         );
 
@@ -261,7 +261,7 @@ void main() {
             setUpMockSearchHistoryInsertFailure();
             final expected = [
               const SearchHistoryState.load(),
-              SearchHistoryState.failure(SearchFailure.databaseError()),
+              SearchHistoryState.failure(SearchHistoryFailure.databaseError()),
             ];
             expectLater(
               searchHistoryBloc,

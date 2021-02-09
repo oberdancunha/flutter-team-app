@@ -7,10 +7,10 @@ import 'package:integration_test/integration_test.dart';
 import 'package:kt_dart/kt.dart';
 import 'package:mockito/mockito.dart';
 import 'package:teamapp/config_reader.dart';
-import 'package:teamapp/domain/search/i_search_repository.dart';
+import 'package:teamapp/domain/search_history/i_search_history_repository.dart';
 import 'package:teamapp/domain/team/i_team_repository.dart';
 import 'package:teamapp/domain/team/team.dart';
-import 'package:teamapp/infrastructure/search/search_dto.dart';
+import 'package:teamapp/infrastructure/search_history/search_history_dto.dart';
 import 'package:teamapp/infrastructure/team/team_dto.dart';
 import 'package:teamapp/presentation/core/app_module.dart';
 import 'package:teamapp/presentation/core/app_search_team.dart';
@@ -25,12 +25,12 @@ import 'package:teamapp/presentation/team/widgets/team_not_found_widget.dart';
 
 class MockTeamRepository extends Mock implements ITeamRepository {}
 
-class MockSearchRepository extends Mock implements ISearchRepository {}
+class MockSearchHistoryRepository extends Mock implements ISearchHistoryRepository {}
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   const teamSearchTextFieldKey = 'team_search_text';
-  MockSearchRepository mockSearchRepository;
+  MockSearchHistoryRepository mockSearchHistoryRepository;
   MockTeamRepository mockTeamRepository;
   final teamDetails = TeamDto.fromJson({
     "id": 126,
@@ -39,11 +39,11 @@ void main() {
     "founded": 1930,
     "logo": "https://media.api-sports.io/football/teams/126.png"
   }).toDomain();
-  final searchHistoryDefault = SearchDto(position: 0, teamSearch: 'River Plate').toDomain();
+  final searchHistoryDefault = SearchHistoryDto(position: 0, teamSearch: 'River Plate').toDomain();
 
   setUp(() async {
     await ConfigReader.initialize();
-    mockSearchRepository = MockSearchRepository();
+    mockSearchHistoryRepository = MockSearchHistoryRepository();
     mockTeamRepository = MockTeamRepository();
   });
 
@@ -55,11 +55,11 @@ void main() {
 
   void setUpMockSearchHistoryList() {
     final searchHistory = [searchHistoryDefault].toImmutableList();
-    when(mockSearchRepository.list()).thenAnswer((_) async => right(searchHistory));
+    when(mockSearchHistoryRepository.list()).thenAnswer((_) async => right(searchHistory));
   }
 
   void setUpMockSearchHistoryFilter(String teamSearch) {
-    when(mockSearchRepository.filter(
+    when(mockSearchHistoryRepository.filter(
       searchHistory: anyNamed('searchHistory'),
       teamSearch: anyNamed('teamSearch'),
     )).thenReturn(const KtList.empty());
@@ -67,10 +67,10 @@ void main() {
 
   void setUpMockSearchHistoryInsert(String teamSearch) {
     final searchHistory = [
-      SearchDto(position: 1, teamSearch: teamSearch).toDomain(),
+      SearchHistoryDto(position: 1, teamSearch: teamSearch).toDomain(),
       searchHistoryDefault,
     ].toImmutableList();
-    when(mockSearchRepository.insert(
+    when(mockSearchHistoryRepository.insert(
       searchHistory: anyNamed('searchHistory'),
       teamSearch: anyNamed('teamSearch'),
     )).thenAnswer((_) async => right(searchHistory));
@@ -86,7 +86,7 @@ void main() {
       AppModule(),
       initialModule: true,
       changeBinds: [
-        Bind<ISearchRepository>((i) => mockSearchRepository),
+        Bind<ISearchHistoryRepository>((i) => mockSearchHistoryRepository),
         Bind<ITeamRepository>((i) => mockTeamRepository)
       ],
     );

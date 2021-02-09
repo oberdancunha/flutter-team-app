@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:teamapp/domain/core/value_failures.dart';
-import 'package:teamapp/domain/search/value_objects.dart';
+import 'package:teamapp/domain/team/value_objects.dart';
 
 void main() {
   group('SearchTerm', () {

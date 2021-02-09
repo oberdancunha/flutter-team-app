@@ -2,14 +2,14 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../application/team/team_form_search/team_form_search_bloc.dart';
+import '../../application/team/team_details/team_details_bloc.dart';
 import '../search/search_page.dart';
 import '../team/team_page.dart';
 
 class AppSearchTeam extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TeamFormSearchBloc, TeamFormSearchState>(
+    return BlocConsumer<TeamDetailsBloc, TeamDetailsState>(
       listener: (context, state) {
         state.teamFailureOrSuccess.fold(
           () => {},

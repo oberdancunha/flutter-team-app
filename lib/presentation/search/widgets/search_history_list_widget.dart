@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kt_dart/kt.dart';
 
-import '../../../domain/search/search.dart';
+import '../../../application/team/team_details/team_details_bloc.dart';
+import '../../../domain/search_history/search_history.dart';
 
 class SearchHistoryListWidget extends StatelessWidget {
-  final KtList<Search> searchHistory;
+  final KtList<SearchHistory> searchHistory;
 
   const SearchHistoryListWidget({
     Key key,
@@ -44,10 +46,20 @@ class SearchHistoryListWidget extends StatelessWidget {
                   child: ListView.separated(
                     separatorBuilder: (_, __) => const SizedBox(height: 3.0),
                     itemCount: searchHistory.size,
-                    itemBuilder: (_, index) => Text(
-                      searchHistory[index].teamSearch.getOrError(),
-                      style: const TextStyle(fontSize: 18.0),
-                    ),
+                    itemBuilder: (_, index) {
+                      final teamSearch = searchHistory[index].teamSearch.getOrError();
+                      return GestureDetector(
+                        onTap: () {
+                          context
+                              .read<TeamDetailsBloc>()
+                              .add(TeamDetailsEvent.changeTeam(teamSearch));
+                        },
+                        child: Text(
+                          teamSearch,
+                          style: const TextStyle(fontSize: 18.0),
+                        ),
+                      );
+                    },
                     shrinkWrap: true,
                   ),
                 ),

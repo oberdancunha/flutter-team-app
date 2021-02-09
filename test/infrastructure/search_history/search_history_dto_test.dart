@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:teamapp/domain/search/search.dart';
-import 'package:teamapp/domain/search/value_objects.dart';
-import 'package:teamapp/infrastructure/search/search_dto.dart';
+import 'package:teamapp/domain/search_history/search_history.dart';
+import 'package:teamapp/domain/team/value_objects.dart';
+import 'package:teamapp/infrastructure/search_history/search_history_dto.dart';
 
 import '../../data/json_reader.dart';
 
 void main() {
   const searchHistoryJsonFile = 'search/search.json';
   final searchJson = jsonReader(searchHistoryJsonFile);
-  final searchDto = SearchDto.fromJson(searchJson);
+  final searchHistoryDto = SearchHistoryDto.fromJson(searchJson);
 
   group('fromJson\n', () {
     test(
@@ -19,8 +19,8 @@ void main() {
         final Map<String, dynamic> jsonMap = json.decode(
           jsonReaderToString(searchHistoryJsonFile),
         ) as Map<String, dynamic>;
-        final result = SearchDto.fromJson(jsonMap);
-        expect(result, searchDto);
+        final result = SearchHistoryDto.fromJson(jsonMap);
+        expect(result, searchHistoryDto);
       },
     );
   });
@@ -31,7 +31,7 @@ void main() {
       test(
         '\tShould return a JSON containing the data',
         () {
-          final result = searchDto.toJson();
+          final result = searchHistoryDto.toJson();
           final expectedJson = jsonReader(searchHistoryJsonFile);
           expect(result, equals(expectedJson));
         },
@@ -45,11 +45,11 @@ void main() {
       test(
         '\tShould return a domain data',
         () {
-          final domain = Search(
+          final domain = SearchHistory(
             position: 0,
             teamSearch: SearchTerm("Sao Paulo"),
           );
-          final result = searchDto.toDomain();
+          final result = searchHistoryDto.toDomain();
           expect(result, equals(domain));
         },
       );

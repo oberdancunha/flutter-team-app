@@ -9,8 +9,8 @@ import 'package:integration_test/integration_test.dart';
 import 'package:kt_dart/kt.dart';
 import 'package:mockito/mockito.dart';
 import 'package:teamapp/config_reader.dart';
-import 'package:teamapp/domain/search/i_search_repository.dart';
-import 'package:teamapp/infrastructure/search/search_dto.dart';
+import 'package:teamapp/domain/search_history/i_search_history_repository.dart';
+import 'package:teamapp/infrastructure/search_history/search_history_dto.dart';
 import 'package:teamapp/presentation/core/app_module.dart';
 import 'package:teamapp/presentation/core/app_search_team.dart';
 import 'package:teamapp/presentation/core/app_widget.dart';
@@ -26,43 +26,43 @@ class MockDio extends Mock implements Dio {}
 
 class MockDataConnectionChecker extends Mock implements DataConnectionChecker {}
 
-class MockSearchRepository extends Mock implements ISearchRepository {}
+class MockSearchHistoryRepository extends Mock implements ISearchHistoryRepository {}
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   const teamSearchTextFieldKey = 'team_search_text';
   MockDio mockDio;
   MockDataConnectionChecker mockDataConnectionChecker;
-  MockSearchRepository mockSearchRepository;
+  MockSearchHistoryRepository mockSearchHistoryRepository;
   const teamSearch = 'Sao Paulo';
   final searchHistory = [
-    SearchDto(position: 1, teamSearch: teamSearch).toDomain(),
-    SearchDto(position: 0, teamSearch: 'River Plate').toDomain()
+    SearchHistoryDto(position: 1, teamSearch: teamSearch).toDomain(),
+    SearchHistoryDto(position: 0, teamSearch: 'River Plate').toDomain()
   ].toImmutableList();
 
   setUp(() async {
     await ConfigReader.initialize();
     mockDio = MockDio();
     mockDataConnectionChecker = MockDataConnectionChecker();
-    mockSearchRepository = MockSearchRepository();
+    mockSearchHistoryRepository = MockSearchHistoryRepository();
   });
 
   void setUpMockSearchHistoryList() {
-    when(mockSearchRepository.list()).thenAnswer((_) async => right(searchHistory));
+    when(mockSearchHistoryRepository.list()).thenAnswer((_) async => right(searchHistory));
   }
 
   void setUpMockSearchHistoryFilter() {
     final searchHistory = [
-      SearchDto(position: 1, teamSearch: teamSearch).toDomain(),
+      SearchHistoryDto(position: 1, teamSearch: teamSearch).toDomain(),
     ].toImmutableList();
-    when(mockSearchRepository.filter(
+    when(mockSearchHistoryRepository.filter(
       searchHistory: anyNamed('searchHistory'),
       teamSearch: anyNamed('teamSearch'),
     )).thenReturn(searchHistory);
   }
 
   void setUpMockSearchHistoryInsert() {
-    when(mockSearchRepository.insert(
+    when(mockSearchHistoryRepository.insert(
       searchHistory: anyNamed('searchHistory'),
       teamSearch: anyNamed('teamSearch'),
     )).thenAnswer((_) async => right(searchHistory));
@@ -106,7 +106,7 @@ void main() {
         initialModule: true,
         changeBinds: [
           Bind<Dio>((i) => mockDio),
-          Bind<ISearchRepository>((i) => mockSearchRepository),
+          Bind<ISearchHistoryRepository>((i) => mockSearchHistoryRepository),
         ],
       );
       when(mockDio.get(
@@ -131,7 +131,7 @@ void main() {
         initialModule: true,
         changeBinds: [
           Bind<DataConnectionChecker>((i) => mockDataConnectionChecker),
-          Bind<ISearchRepository>((i) => mockSearchRepository),
+          Bind<ISearchHistoryRepository>((i) => mockSearchHistoryRepository),
         ],
       );
       when(mockDataConnectionChecker.hasConnection).thenAnswer(

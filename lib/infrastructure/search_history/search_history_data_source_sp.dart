@@ -1,13 +1,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:teamapp/core/errors/exceptions/database_exception.dart';
+import '../../core/errors/exceptions/database_exception.dart';
+import '../../domain/search_history/i_search_history_data_source.dart';
 
-import '../../domain/search/i_search_data_source.dart';
-
-class SearchDataSourceSP implements ISearchDataSource {
+class SearchHistoryDataSourceSP implements ISearchHistoryDataSource {
   SharedPreferences sharedPreferences;
   static const searchHistoryKey = 'searchHistory';
 
-  SearchDataSourceSP(this.sharedPreferences);
+  SearchHistoryDataSourceSP(this.sharedPreferences);
 
   @override
   Future<List<String>> list() async {

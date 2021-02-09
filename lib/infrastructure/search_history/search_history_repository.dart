@@ -5,38 +5,38 @@ import 'package:kt_dart/kt.dart';
 import 'package:meta/meta.dart';
 
 import '../../core/errors/exceptions/database_exception.dart';
-import '../../domain/search/i_search_data_source.dart';
-import '../../domain/search/i_search_repository.dart';
-import '../../domain/search/search.dart';
-import '../../domain/search/search_failures.dart';
-import 'search_dto.dart';
+import '../../domain/search_history/i_search_history_data_source.dart';
+import '../../domain/search_history/i_search_history_repository.dart';
+import '../../domain/search_history/search_history.dart';
+import '../../domain/search_history/search_history_failures.dart';
+import 'search_history_dto.dart';
 
-class SearchRepository implements ISearchRepository {
-  final ISearchDataSource searchDataSource;
+class SearchHistoryRepository implements ISearchHistoryRepository {
+  final ISearchHistoryDataSource searchDataSource;
   static const int searchHistoryLength = 5;
 
-  SearchRepository(this.searchDataSource);
+  SearchHistoryRepository(this.searchDataSource);
 
   @override
-  Future<Either<SearchFailure, KtList<Search>>> list() async {
+  Future<Either<SearchHistoryFailure, KtList<SearchHistory>>> list() async {
     try {
       final searchHistoryListString = await searchDataSource.list();
       final searchHistory = searchHistoryListString
           .map(
-            (history) => SearchDto.fromJson(
+            (history) => SearchHistoryDto.fromJson(
               jsonDecode(history) as Map<String, dynamic>,
             ).toDomain(),
           )
           .toImmutableList();
       return right(searchHistory);
     } on DatabaseException {
-      return left(SearchFailure.databaseError());
+      return left(SearchHistoryFailure.databaseError());
     }
   }
 
   @override
-  KtList<Search> filter({
-    @required KtList<Search> searchHistory,
+  KtList<SearchHistory> filter({
+    @required KtList<SearchHistory> searchHistory,
     @required String teamSearch,
   }) {
     return searchHistory
@@ -48,15 +48,15 @@ class SearchRepository implements ISearchRepository {
   }
 
   @override
-  Future<Either<SearchFailure, KtList<Search>>> insert({
-    @required KtList<Search> searchHistory,
+  Future<Either<SearchHistoryFailure, KtList<SearchHistory>>> insert({
+    @required KtList<SearchHistory> searchHistory,
     @required String teamSearch,
   }) async {
     try {
       final searchHistoryDto = searchHistory
           .asList()
           .map(
-            (history) => SearchDto.fromDomain(history),
+            (history) => SearchHistoryDto.fromDomain(history),
           )
           .toList();
       final searchHistoryModified = _sortSearchHistory(
@@ -78,12 +78,12 @@ class SearchRepository implements ISearchRepository {
             .toImmutableList(),
       );
     } on DatabaseException {
-      return left(SearchFailure.databaseError());
+      return left(SearchHistoryFailure.databaseError());
     }
   }
 
-  List<SearchDto> _sortSearchHistory({
-    @required List<SearchDto> searchHistory,
+  List<SearchHistoryDto> _sortSearchHistory({
+    @required List<SearchHistoryDto> searchHistory,
     @required String teamSearch,
   }) {
     final contains = searchHistory.singleWhere(
@@ -96,7 +96,7 @@ class SearchRepository implements ISearchRepository {
       );
     }
     searchHistory.add(
-      SearchDto(
+      SearchHistoryDto(
         position: 0,
         teamSearch: teamSearch,
       ),
@@ -110,7 +110,7 @@ class SearchRepository implements ISearchRepository {
     int position = searchHistory.length;
     final searchHistorySorted = searchHistory.reversed
         .map(
-          (history) => SearchDto(
+          (history) => SearchHistoryDto(
             position: --position,
             teamSearch: history.teamSearch,
           ),

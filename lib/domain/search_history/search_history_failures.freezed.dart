@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
-part of 'search_failures.dart';
+part of 'search_history_failures.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -10,8 +10,8 @@ part of 'search_failures.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-class _$SearchFailureTearOff {
-  const _$SearchFailureTearOff();
+class _$SearchHistoryFailureTearOff {
+  const _$SearchHistoryFailureTearOff();
 
 // ignore: unused_element
   _DatabaseError databaseError() {
@@ -21,10 +21,10 @@ class _$SearchFailureTearOff {
 
 /// @nodoc
 // ignore: unused_element
-const $SearchFailure = _$SearchFailureTearOff();
+const $SearchHistoryFailure = _$SearchHistoryFailureTearOff();
 
 /// @nodoc
-mixin _$SearchFailure {
+mixin _$SearchHistoryFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult databaseError(),
@@ -46,20 +46,20 @@ mixin _$SearchFailure {
 }
 
 /// @nodoc
-abstract class $SearchFailureCopyWith<$Res> {
-  factory $SearchFailureCopyWith(
-          SearchFailure value, $Res Function(SearchFailure) then) =
-      _$SearchFailureCopyWithImpl<$Res>;
+abstract class $SearchHistoryFailureCopyWith<$Res> {
+  factory $SearchHistoryFailureCopyWith(SearchHistoryFailure value,
+          $Res Function(SearchHistoryFailure) then) =
+      _$SearchHistoryFailureCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$SearchFailureCopyWithImpl<$Res>
-    implements $SearchFailureCopyWith<$Res> {
-  _$SearchFailureCopyWithImpl(this._value, this._then);
+class _$SearchHistoryFailureCopyWithImpl<$Res>
+    implements $SearchHistoryFailureCopyWith<$Res> {
+  _$SearchHistoryFailureCopyWithImpl(this._value, this._then);
 
-  final SearchFailure _value;
+  final SearchHistoryFailure _value;
   // ignore: unused_field
-  final $Res Function(SearchFailure) _then;
+  final $Res Function(SearchHistoryFailure) _then;
 }
 
 /// @nodoc
@@ -71,7 +71,7 @@ abstract class _$DatabaseErrorCopyWith<$Res> {
 
 /// @nodoc
 class __$DatabaseErrorCopyWithImpl<$Res>
-    extends _$SearchFailureCopyWithImpl<$Res>
+    extends _$SearchHistoryFailureCopyWithImpl<$Res>
     implements _$DatabaseErrorCopyWith<$Res> {
   __$DatabaseErrorCopyWithImpl(
       _DatabaseError _value, $Res Function(_DatabaseError) _then)
@@ -87,7 +87,7 @@ class _$_DatabaseError implements _DatabaseError {
 
   @override
   String toString() {
-    return 'SearchFailure.databaseError()';
+    return 'SearchHistoryFailure.databaseError()';
   }
 
   @override
@@ -143,6 +143,6 @@ class _$_DatabaseError implements _DatabaseError {
   }
 }
 
-abstract class _DatabaseError implements SearchFailure {
+abstract class _DatabaseError implements SearchHistoryFailure {
   factory _DatabaseError() = _$_DatabaseError;
 }

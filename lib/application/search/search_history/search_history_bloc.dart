@@ -3,23 +3,23 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kt_dart/kt.dart';
-import 'package:teamapp/domain/search/value_objects.dart';
 
 import '../../../domain/core/value_sanitize.dart';
-import '../../../domain/search/i_search_repository.dart';
-import '../../../domain/search/search.dart';
-import '../../../domain/search/search_failures.dart';
+import '../../../domain/search_history/i_search_history_repository.dart';
+import '../../../domain/search_history/search_history.dart';
+import '../../../domain/search_history/search_history_failures.dart';
+import '../../../domain/team/value_objects.dart';
 
 part 'search_history_bloc.freezed.dart';
 part 'search_history_event.dart';
 part 'search_history_state.dart';
 
 class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
-  final ISearchRepository searchRepository;
+  final ISearchHistoryRepository searchHistoryRepository;
   final ValueSanitize valueSanitize;
 
   SearchHistoryBloc({
-    @required this.searchRepository,
+    @required this.searchHistoryRepository,
     @required this.valueSanitize,
   }) : super(const _Initial());
 
@@ -30,7 +30,7 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
     yield* event.map(
       list: (e) async* {
         yield const SearchHistoryState.load();
-        final searchHistory = await searchRepository.list();
+        final searchHistory = await searchHistoryRepository.list();
         yield searchHistory.fold(
           (searchFailure) => SearchHistoryState.failure(searchFailure),
           (searchHistory) => SearchHistoryState.success(
@@ -42,7 +42,7 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
       filter: (e) async* {
         yield const SearchHistoryState.load();
         final teamSearch = valueSanitize.removeExcessiveWhiteSpaces(e.teamSearch);
-        final searchHistory = searchRepository.filter(
+        final searchHistory = searchHistoryRepository.filter(
           searchHistory: e.searchHistoryPersistent,
           teamSearch: teamSearch,
         );
@@ -58,11 +58,11 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
           final teamSearch = valueSanitize.removeExcessiveWhiteSpaces(
             teamSearchValidate.getOrError(),
           );
-          final insert = await searchRepository.insert(
+          final searchHistoryInserted = await searchHistoryRepository.insert(
             searchHistory: e.searchHistoryPersistent,
             teamSearch: teamSearch,
           );
-          yield insert.fold(
+          yield searchHistoryInserted.fold(
             (searchFailure) => SearchHistoryState.failure(searchFailure),
             (searchHistory) => SearchHistoryState.success(
               searchHistory,

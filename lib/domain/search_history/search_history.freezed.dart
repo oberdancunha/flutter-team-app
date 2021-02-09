@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
-part of 'search.dart';
+part of 'search_history.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -10,12 +10,13 @@ part of 'search.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-class _$SearchTearOff {
-  const _$SearchTearOff();
+class _$SearchHistoryTearOff {
+  const _$SearchHistoryTearOff();
 
 // ignore: unused_element
-  _Search call({@required int position, @required SearchTerm teamSearch}) {
-    return _Search(
+  _SearchHistory call(
+      {@required int position, @required SearchTerm teamSearch}) {
+    return _SearchHistory(
       position: position,
       teamSearch: teamSearch,
     );
@@ -24,30 +25,32 @@ class _$SearchTearOff {
 
 /// @nodoc
 // ignore: unused_element
-const $Search = _$SearchTearOff();
+const $SearchHistory = _$SearchHistoryTearOff();
 
 /// @nodoc
-mixin _$Search {
+mixin _$SearchHistory {
   int get position;
   SearchTerm get teamSearch;
 
-  $SearchCopyWith<Search> get copyWith;
+  $SearchHistoryCopyWith<SearchHistory> get copyWith;
 }
 
 /// @nodoc
-abstract class $SearchCopyWith<$Res> {
-  factory $SearchCopyWith(Search value, $Res Function(Search) then) =
-      _$SearchCopyWithImpl<$Res>;
+abstract class $SearchHistoryCopyWith<$Res> {
+  factory $SearchHistoryCopyWith(
+          SearchHistory value, $Res Function(SearchHistory) then) =
+      _$SearchHistoryCopyWithImpl<$Res>;
   $Res call({int position, SearchTerm teamSearch});
 }
 
 /// @nodoc
-class _$SearchCopyWithImpl<$Res> implements $SearchCopyWith<$Res> {
-  _$SearchCopyWithImpl(this._value, this._then);
+class _$SearchHistoryCopyWithImpl<$Res>
+    implements $SearchHistoryCopyWith<$Res> {
+  _$SearchHistoryCopyWithImpl(this._value, this._then);
 
-  final Search _value;
+  final SearchHistory _value;
   // ignore: unused_field
-  final $Res Function(Search) _then;
+  final $Res Function(SearchHistory) _then;
 
   @override
   $Res call({
@@ -63,28 +66,32 @@ class _$SearchCopyWithImpl<$Res> implements $SearchCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$SearchCopyWith<$Res> implements $SearchCopyWith<$Res> {
-  factory _$SearchCopyWith(_Search value, $Res Function(_Search) then) =
-      __$SearchCopyWithImpl<$Res>;
+abstract class _$SearchHistoryCopyWith<$Res>
+    implements $SearchHistoryCopyWith<$Res> {
+  factory _$SearchHistoryCopyWith(
+          _SearchHistory value, $Res Function(_SearchHistory) then) =
+      __$SearchHistoryCopyWithImpl<$Res>;
   @override
   $Res call({int position, SearchTerm teamSearch});
 }
 
 /// @nodoc
-class __$SearchCopyWithImpl<$Res> extends _$SearchCopyWithImpl<$Res>
-    implements _$SearchCopyWith<$Res> {
-  __$SearchCopyWithImpl(_Search _value, $Res Function(_Search) _then)
-      : super(_value, (v) => _then(v as _Search));
+class __$SearchHistoryCopyWithImpl<$Res>
+    extends _$SearchHistoryCopyWithImpl<$Res>
+    implements _$SearchHistoryCopyWith<$Res> {
+  __$SearchHistoryCopyWithImpl(
+      _SearchHistory _value, $Res Function(_SearchHistory) _then)
+      : super(_value, (v) => _then(v as _SearchHistory));
 
   @override
-  _Search get _value => super._value as _Search;
+  _SearchHistory get _value => super._value as _SearchHistory;
 
   @override
   $Res call({
     Object position = freezed,
     Object teamSearch = freezed,
   }) {
-    return _then(_Search(
+    return _then(_SearchHistory(
       position: position == freezed ? _value.position : position as int,
       teamSearch:
           teamSearch == freezed ? _value.teamSearch : teamSearch as SearchTerm,
@@ -93,8 +100,8 @@ class __$SearchCopyWithImpl<$Res> extends _$SearchCopyWithImpl<$Res>
 }
 
 /// @nodoc
-class _$_Search extends _Search {
-  _$_Search({@required this.position, @required this.teamSearch})
+class _$_SearchHistory extends _SearchHistory {
+  _$_SearchHistory({@required this.position, @required this.teamSearch})
       : assert(position != null),
         assert(teamSearch != null),
         super._();
@@ -106,13 +113,13 @@ class _$_Search extends _Search {
 
   @override
   String toString() {
-    return 'Search(position: $position, teamSearch: $teamSearch)';
+    return 'SearchHistory(position: $position, teamSearch: $teamSearch)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Search &&
+        (other is _SearchHistory &&
             (identical(other.position, position) ||
                 const DeepCollectionEquality()
                     .equals(other.position, position)) &&
@@ -128,19 +135,20 @@ class _$_Search extends _Search {
       const DeepCollectionEquality().hash(teamSearch);
 
   @override
-  _$SearchCopyWith<_Search> get copyWith =>
-      __$SearchCopyWithImpl<_Search>(this, _$identity);
+  _$SearchHistoryCopyWith<_SearchHistory> get copyWith =>
+      __$SearchHistoryCopyWithImpl<_SearchHistory>(this, _$identity);
 }
 
-abstract class _Search extends Search {
-  _Search._() : super._();
-  factory _Search({@required int position, @required SearchTerm teamSearch}) =
-      _$_Search;
+abstract class _SearchHistory extends SearchHistory {
+  _SearchHistory._() : super._();
+  factory _SearchHistory(
+      {@required int position,
+      @required SearchTerm teamSearch}) = _$_SearchHistory;
 
   @override
   int get position;
   @override
   SearchTerm get teamSearch;
   @override
-  _$SearchCopyWith<_Search> get copyWith;
+  _$SearchHistoryCopyWith<_SearchHistory> get copyWith;
 }

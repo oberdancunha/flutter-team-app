@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
-part of 'team_form_search_bloc.dart';
+part of 'team_details_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -10,8 +10,8 @@ part of 'team_form_search_bloc.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-class _$TeamFormSearchEventTearOff {
-  const _$TeamFormSearchEventTearOff();
+class _$TeamDetailsEventTearOff {
+  const _$TeamDetailsEventTearOff();
 
 // ignore: unused_element
   _ChangeTeam changeTeam(String teamSearch) {
@@ -30,10 +30,10 @@ class _$TeamFormSearchEventTearOff {
 
 /// @nodoc
 // ignore: unused_element
-const $TeamFormSearchEvent = _$TeamFormSearchEventTearOff();
+const $TeamDetailsEvent = _$TeamDetailsEventTearOff();
 
 /// @nodoc
-mixin _$TeamFormSearchEvent {
+mixin _$TeamDetailsEvent {
   String get teamSearch;
 
   @optionalTypeArgs
@@ -59,25 +59,25 @@ mixin _$TeamFormSearchEvent {
     @required TResult orElse(),
   });
 
-  $TeamFormSearchEventCopyWith<TeamFormSearchEvent> get copyWith;
+  $TeamDetailsEventCopyWith<TeamDetailsEvent> get copyWith;
 }
 
 /// @nodoc
-abstract class $TeamFormSearchEventCopyWith<$Res> {
-  factory $TeamFormSearchEventCopyWith(
-          TeamFormSearchEvent value, $Res Function(TeamFormSearchEvent) then) =
-      _$TeamFormSearchEventCopyWithImpl<$Res>;
+abstract class $TeamDetailsEventCopyWith<$Res> {
+  factory $TeamDetailsEventCopyWith(
+          TeamDetailsEvent value, $Res Function(TeamDetailsEvent) then) =
+      _$TeamDetailsEventCopyWithImpl<$Res>;
   $Res call({String teamSearch});
 }
 
 /// @nodoc
-class _$TeamFormSearchEventCopyWithImpl<$Res>
-    implements $TeamFormSearchEventCopyWith<$Res> {
-  _$TeamFormSearchEventCopyWithImpl(this._value, this._then);
+class _$TeamDetailsEventCopyWithImpl<$Res>
+    implements $TeamDetailsEventCopyWith<$Res> {
+  _$TeamDetailsEventCopyWithImpl(this._value, this._then);
 
-  final TeamFormSearchEvent _value;
+  final TeamDetailsEvent _value;
   // ignore: unused_field
-  final $Res Function(TeamFormSearchEvent) _then;
+  final $Res Function(TeamDetailsEvent) _then;
 
   @override
   $Res call({
@@ -92,7 +92,7 @@ class _$TeamFormSearchEventCopyWithImpl<$Res>
 
 /// @nodoc
 abstract class _$ChangeTeamCopyWith<$Res>
-    implements $TeamFormSearchEventCopyWith<$Res> {
+    implements $TeamDetailsEventCopyWith<$Res> {
   factory _$ChangeTeamCopyWith(
           _ChangeTeam value, $Res Function(_ChangeTeam) then) =
       __$ChangeTeamCopyWithImpl<$Res>;
@@ -102,7 +102,7 @@ abstract class _$ChangeTeamCopyWith<$Res>
 
 /// @nodoc
 class __$ChangeTeamCopyWithImpl<$Res>
-    extends _$TeamFormSearchEventCopyWithImpl<$Res>
+    extends _$TeamDetailsEventCopyWithImpl<$Res>
     implements _$ChangeTeamCopyWith<$Res> {
   __$ChangeTeamCopyWithImpl(
       _ChangeTeam _value, $Res Function(_ChangeTeam) _then)
@@ -130,7 +130,7 @@ class _$_ChangeTeam implements _ChangeTeam {
 
   @override
   String toString() {
-    return 'TeamFormSearchEvent.changeTeam(teamSearch: $teamSearch)';
+    return 'TeamDetailsEvent.changeTeam(teamSearch: $teamSearch)';
   }
 
   @override
@@ -201,7 +201,7 @@ class _$_ChangeTeam implements _ChangeTeam {
   }
 }
 
-abstract class _ChangeTeam implements TeamFormSearchEvent {
+abstract class _ChangeTeam implements TeamDetailsEvent {
   const factory _ChangeTeam(String teamSearch) = _$_ChangeTeam;
 
   @override
@@ -212,7 +212,7 @@ abstract class _ChangeTeam implements TeamFormSearchEvent {
 
 /// @nodoc
 abstract class _$SearchCopyWith<$Res>
-    implements $TeamFormSearchEventCopyWith<$Res> {
+    implements $TeamDetailsEventCopyWith<$Res> {
   factory _$SearchCopyWith(_Search value, $Res Function(_Search) then) =
       __$SearchCopyWithImpl<$Res>;
   @override
@@ -220,8 +220,7 @@ abstract class _$SearchCopyWith<$Res>
 }
 
 /// @nodoc
-class __$SearchCopyWithImpl<$Res>
-    extends _$TeamFormSearchEventCopyWithImpl<$Res>
+class __$SearchCopyWithImpl<$Res> extends _$TeamDetailsEventCopyWithImpl<$Res>
     implements _$SearchCopyWith<$Res> {
   __$SearchCopyWithImpl(_Search _value, $Res Function(_Search) _then)
       : super(_value, (v) => _then(v as _Search));
@@ -248,7 +247,7 @@ class _$_Search implements _Search {
 
   @override
   String toString() {
-    return 'TeamFormSearchEvent.search(teamSearch: $teamSearch)';
+    return 'TeamDetailsEvent.search(teamSearch: $teamSearch)';
   }
 
   @override
@@ -319,7 +318,7 @@ class _$_Search implements _Search {
   }
 }
 
-abstract class _Search implements TeamFormSearchEvent {
+abstract class _Search implements TeamDetailsEvent {
   const factory _Search(String teamSearch) = _$_Search;
 
   @override
@@ -329,15 +328,15 @@ abstract class _Search implements TeamFormSearchEvent {
 }
 
 /// @nodoc
-class _$TeamFormSearchStateTearOff {
-  const _$TeamFormSearchStateTearOff();
+class _$TeamDetailsStateTearOff {
+  const _$TeamDetailsStateTearOff();
 
 // ignore: unused_element
-  _TeamFormSearchState call(
+  _TeamDetailsState call(
       {@required SearchTerm teamSearch,
       @required Option<Either<TeamFailure, Team>> teamFailureOrSuccess,
       @required bool isSearching}) {
-    return _TeamFormSearchState(
+    return _TeamDetailsState(
       teamSearch: teamSearch,
       teamFailureOrSuccess: teamFailureOrSuccess,
       isSearching: isSearching,
@@ -347,22 +346,22 @@ class _$TeamFormSearchStateTearOff {
 
 /// @nodoc
 // ignore: unused_element
-const $TeamFormSearchState = _$TeamFormSearchStateTearOff();
+const $TeamDetailsState = _$TeamDetailsStateTearOff();
 
 /// @nodoc
-mixin _$TeamFormSearchState {
+mixin _$TeamDetailsState {
   SearchTerm get teamSearch;
   Option<Either<TeamFailure, Team>> get teamFailureOrSuccess;
   bool get isSearching;
 
-  $TeamFormSearchStateCopyWith<TeamFormSearchState> get copyWith;
+  $TeamDetailsStateCopyWith<TeamDetailsState> get copyWith;
 }
 
 /// @nodoc
-abstract class $TeamFormSearchStateCopyWith<$Res> {
-  factory $TeamFormSearchStateCopyWith(
-          TeamFormSearchState value, $Res Function(TeamFormSearchState) then) =
-      _$TeamFormSearchStateCopyWithImpl<$Res>;
+abstract class $TeamDetailsStateCopyWith<$Res> {
+  factory $TeamDetailsStateCopyWith(
+          TeamDetailsState value, $Res Function(TeamDetailsState) then) =
+      _$TeamDetailsStateCopyWithImpl<$Res>;
   $Res call(
       {SearchTerm teamSearch,
       Option<Either<TeamFailure, Team>> teamFailureOrSuccess,
@@ -370,13 +369,13 @@ abstract class $TeamFormSearchStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TeamFormSearchStateCopyWithImpl<$Res>
-    implements $TeamFormSearchStateCopyWith<$Res> {
-  _$TeamFormSearchStateCopyWithImpl(this._value, this._then);
+class _$TeamDetailsStateCopyWithImpl<$Res>
+    implements $TeamDetailsStateCopyWith<$Res> {
+  _$TeamDetailsStateCopyWithImpl(this._value, this._then);
 
-  final TeamFormSearchState _value;
+  final TeamDetailsState _value;
   // ignore: unused_field
-  final $Res Function(TeamFormSearchState) _then;
+  final $Res Function(TeamDetailsState) _then;
 
   @override
   $Res call({
@@ -397,11 +396,11 @@ class _$TeamFormSearchStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$TeamFormSearchStateCopyWith<$Res>
-    implements $TeamFormSearchStateCopyWith<$Res> {
-  factory _$TeamFormSearchStateCopyWith(_TeamFormSearchState value,
-          $Res Function(_TeamFormSearchState) then) =
-      __$TeamFormSearchStateCopyWithImpl<$Res>;
+abstract class _$TeamDetailsStateCopyWith<$Res>
+    implements $TeamDetailsStateCopyWith<$Res> {
+  factory _$TeamDetailsStateCopyWith(
+          _TeamDetailsState value, $Res Function(_TeamDetailsState) then) =
+      __$TeamDetailsStateCopyWithImpl<$Res>;
   @override
   $Res call(
       {SearchTerm teamSearch,
@@ -410,15 +409,15 @@ abstract class _$TeamFormSearchStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$TeamFormSearchStateCopyWithImpl<$Res>
-    extends _$TeamFormSearchStateCopyWithImpl<$Res>
-    implements _$TeamFormSearchStateCopyWith<$Res> {
-  __$TeamFormSearchStateCopyWithImpl(
-      _TeamFormSearchState _value, $Res Function(_TeamFormSearchState) _then)
-      : super(_value, (v) => _then(v as _TeamFormSearchState));
+class __$TeamDetailsStateCopyWithImpl<$Res>
+    extends _$TeamDetailsStateCopyWithImpl<$Res>
+    implements _$TeamDetailsStateCopyWith<$Res> {
+  __$TeamDetailsStateCopyWithImpl(
+      _TeamDetailsState _value, $Res Function(_TeamDetailsState) _then)
+      : super(_value, (v) => _then(v as _TeamDetailsState));
 
   @override
-  _TeamFormSearchState get _value => super._value as _TeamFormSearchState;
+  _TeamDetailsState get _value => super._value as _TeamDetailsState;
 
   @override
   $Res call({
@@ -426,7 +425,7 @@ class __$TeamFormSearchStateCopyWithImpl<$Res>
     Object teamFailureOrSuccess = freezed,
     Object isSearching = freezed,
   }) {
-    return _then(_TeamFormSearchState(
+    return _then(_TeamDetailsState(
       teamSearch:
           teamSearch == freezed ? _value.teamSearch : teamSearch as SearchTerm,
       teamFailureOrSuccess: teamFailureOrSuccess == freezed
@@ -439,8 +438,8 @@ class __$TeamFormSearchStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-class _$_TeamFormSearchState implements _TeamFormSearchState {
-  const _$_TeamFormSearchState(
+class _$_TeamDetailsState implements _TeamDetailsState {
+  const _$_TeamDetailsState(
       {@required this.teamSearch,
       @required this.teamFailureOrSuccess,
       @required this.isSearching})
@@ -457,13 +456,13 @@ class _$_TeamFormSearchState implements _TeamFormSearchState {
 
   @override
   String toString() {
-    return 'TeamFormSearchState(teamSearch: $teamSearch, teamFailureOrSuccess: $teamFailureOrSuccess, isSearching: $isSearching)';
+    return 'TeamDetailsState(teamSearch: $teamSearch, teamFailureOrSuccess: $teamFailureOrSuccess, isSearching: $isSearching)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _TeamFormSearchState &&
+        (other is _TeamDetailsState &&
             (identical(other.teamSearch, teamSearch) ||
                 const DeepCollectionEquality()
                     .equals(other.teamSearch, teamSearch)) &&
@@ -483,16 +482,15 @@ class _$_TeamFormSearchState implements _TeamFormSearchState {
       const DeepCollectionEquality().hash(isSearching);
 
   @override
-  _$TeamFormSearchStateCopyWith<_TeamFormSearchState> get copyWith =>
-      __$TeamFormSearchStateCopyWithImpl<_TeamFormSearchState>(
-          this, _$identity);
+  _$TeamDetailsStateCopyWith<_TeamDetailsState> get copyWith =>
+      __$TeamDetailsStateCopyWithImpl<_TeamDetailsState>(this, _$identity);
 }
 
-abstract class _TeamFormSearchState implements TeamFormSearchState {
-  const factory _TeamFormSearchState(
+abstract class _TeamDetailsState implements TeamDetailsState {
+  const factory _TeamDetailsState(
       {@required SearchTerm teamSearch,
       @required Option<Either<TeamFailure, Team>> teamFailureOrSuccess,
-      @required bool isSearching}) = _$_TeamFormSearchState;
+      @required bool isSearching}) = _$_TeamDetailsState;
 
   @override
   SearchTerm get teamSearch;
@@ -501,5 +499,5 @@ abstract class _TeamFormSearchState implements TeamFormSearchState {
   @override
   bool get isSearching;
   @override
-  _$TeamFormSearchStateCopyWith<_TeamFormSearchState> get copyWith;
+  _$TeamDetailsStateCopyWith<_TeamDetailsState> get copyWith;
 }

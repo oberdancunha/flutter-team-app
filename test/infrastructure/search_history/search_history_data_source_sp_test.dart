@@ -3,7 +3,7 @@ import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teamapp/core/errors/exceptions/database_exception.dart';
-import 'package:teamapp/infrastructure/search/search_data_source_sp.dart';
+import 'package:teamapp/infrastructure/search_history/search_history_data_source_sp.dart';
 
 import '../../data/json_reader.dart';
 
@@ -11,7 +11,7 @@ class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 void main() {
   MockSharedPreferences mockSharedPreferences;
-  SearchDataSourceSP searchDataSourceSP;
+  SearchHistoryDataSourceSP searchHistoryDataSourceSP;
   const searchHistoryKey = 'searchHistory';
   final searchHistory = jsonReaderList('search/search_history.json')
       .map(
@@ -22,7 +22,7 @@ void main() {
   setUp(() {
     TestWidgetsFlutterBinding.ensureInitialized();
     mockSharedPreferences = MockSharedPreferences();
-    searchDataSourceSP = SearchDataSourceSP(mockSharedPreferences);
+    searchHistoryDataSourceSP = SearchHistoryDataSourceSP(mockSharedPreferences);
   });
 
   void setUpMockInitialValues() {
@@ -38,7 +38,7 @@ void main() {
         '\tShould return a search history list',
         () async {
           setUpMockInitialValues();
-          final history = await searchDataSourceSP.list();
+          final history = await searchHistoryDataSourceSP.list();
           expect(history, equals(searchHistory));
         },
       );
@@ -47,7 +47,7 @@ void main() {
         '\tShould return a DatabaseException error when listing search history',
         () async {
           when(mockSharedPreferences.getStringList(any)).thenThrow(Exception());
-          final call = searchDataSourceSP.list;
+          final call = searchHistoryDataSourceSP.list;
           expect(
             () => call(),
             throwsA(
@@ -67,7 +67,7 @@ void main() {
         () async {
           setUpMockInitialValues();
           when(mockSharedPreferences.setStringList(any, any)).thenAnswer((_) async => true);
-          final call = searchDataSourceSP.insert;
+          final call = searchHistoryDataSourceSP.insert;
           expect(
             () => call(searchHistory),
             const TypeMatcher<void>(),
@@ -79,7 +79,7 @@ void main() {
         '\tShould return the DatabaseException error on insert search history',
         () async {
           when(mockSharedPreferences.setStringList(any, any)).thenThrow(Exception());
-          final call = searchDataSourceSP.insert;
+          final call = searchHistoryDataSourceSP.insert;
           expect(
             () => call(searchHistory),
             throwsA(
