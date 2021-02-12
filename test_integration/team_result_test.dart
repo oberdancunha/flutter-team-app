@@ -8,6 +8,7 @@ import 'package:kt_dart/kt.dart';
 import 'package:mockito/mockito.dart';
 import 'package:teamapp/config_reader.dart';
 import 'package:teamapp/domain/search_history/i_search_history_repository.dart';
+import 'package:teamapp/domain/search_history/search_history.dart';
 import 'package:teamapp/domain/team/i_team_repository.dart';
 import 'package:teamapp/domain/team/team.dart';
 import 'package:teamapp/infrastructure/search_history/search_history_dto.dart';
@@ -40,17 +41,21 @@ void main() {
     "founded": 1930,
     "logo": "https://media.api-sports.io/football/teams/126.png"
   }).toDomain();
-  final searchHistory = [
-    SearchHistoryDto(position: 0, teamSearch: 'AC Milan').toDomain(),
-    SearchHistoryDto(position: 1, teamSearch: 'River Plate').toDomain(),
-    SearchHistoryDto(position: 2, teamSearch: 'Boca Juniors').toDomain(),
-  ].toList();
+  List<SearchHistory> searchHistory;
 
   setUp(() async {
     await ConfigReader.initialize();
     mockSearchHistoryRepository = MockSearchHistoryRepository();
     mockTeamRepository = MockTeamRepository();
   });
+
+  void initSearchHistory() {
+    searchHistory = [
+      SearchHistoryDto(position: 0, teamSearch: 'AC Milan').toDomain(),
+      SearchHistoryDto(position: 1, teamSearch: 'River Plate').toDomain(),
+      SearchHistoryDto(position: 2, teamSearch: 'Boca Juniors').toDomain(),
+    ].toList();
+  }
 
   void setUpMockGetTeamDetails(Team returnData) {
     when(mockTeamRepository.getDetails(any)).thenAnswer(
@@ -97,6 +102,7 @@ void main() {
         Bind<ITeamRepository>((i) => mockTeamRepository)
       ],
     );
+    initSearchHistory();
     setUpMockSearchHistoryList();
     setUpMockSearchHistoryFilter(teamSearch);
     await tester.pumpWidget(AppWidget());
@@ -125,22 +131,22 @@ void main() {
     Modular.removeModule(AppModule());
   }
 
-  // testWidgets(
-  //   'Should return an alert when the team searched is not found',
-  //   (WidgetTester tester) async {
-  //     const teamSearch = 'Sao Paul';
-  //     setUpMockGetTeamDetails(Team.empty());
-  //     await setUpSearchAndTeamDetails(
-  //       tester: tester,
-  //       teamSearch: teamSearch,
-  //       pumpMilliseconds: 1,
-  //       body: () async {
-  //         await expectLater(find.byType(TeamNotFoundWidget), findsOneWidget);
-  //         await expectLater(find.byType(TeamDetailsWidget), findsNothing);
-  //       },
-  //     );
-  //   },
-  // );
+  testWidgets(
+    'Should return an alert when the team searched is not found',
+    (WidgetTester tester) async {
+      const teamSearch = 'Sao Paul';
+      setUpMockGetTeamDetails(Team.empty());
+      await setUpSearchAndTeamDetails(
+        tester: tester,
+        teamSearch: teamSearch,
+        pumpMilliseconds: 1,
+        body: () async {
+          await expectLater(find.byType(TeamNotFoundWidget), findsOneWidget);
+          await expectLater(find.byType(TeamDetailsWidget), findsNothing);
+        },
+      );
+    },
+  );
 
   testWidgets(
     'Should return the data when the team searched is found',
