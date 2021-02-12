@@ -15,7 +15,7 @@ class TeamNotFoundWidget extends StatelessWidget {
             color: Colors.white70,
             size: 30.0,
           ),
-          SizedBox(width: 20.0),
+          SizedBox(width: 15.0),
           Text(
             'Team not found',
             style: TextStyle(

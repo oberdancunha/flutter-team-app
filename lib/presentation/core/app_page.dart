@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:teamapp/application/team/team_details/team_details_bloc.dart';
 
 import '../../application/search/search_history/search_history_bloc.dart';
-import 'app_search_team.dart';
+import '../../application/team/team_details/team_details_bloc.dart';
+import '../team/team_page.dart';
 
 class AppPage extends StatelessWidget {
   final TeamDetailsBloc teamDetailsBloc;
@@ -29,7 +29,7 @@ class AppPage extends StatelessWidget {
             create: (context) => searchHistoryBloc..add(const SearchHistoryEvent.list()),
           ),
         ],
-        child: AppSearchTeam(),
+        child: TeamPage(),
       ),
     );
   }

@@ -1,23 +1,50 @@
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:teamapp/domain/team/team.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'widgets/team_details_widget.dart';
-import 'widgets/team_not_found_widget.dart';
+import '../../application/team/team_details/team_details_bloc.dart';
+import 'widgets/team_result_widget.dart';
+import 'widgets/team_search_widget.dart';
 
 class TeamPage extends StatelessWidget {
-  final Team team;
-
-  const TeamPage({
-    Key key,
-    @required this.team,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    if (team.id == 0) {
-      return TeamNotFoundWidget();
-    } else {
-      return Expanded(child: TeamDetailsWidget(team: team));
-    }
+    return BlocConsumer<TeamDetailsBloc, TeamDetailsState>(
+      listener: (context, state) {
+        state.teamFailureOrSuccess.fold(
+          () => {},
+          (either) => either.fold(
+            (failure) => {
+              FlushbarHelper.createError(
+                message: failure.map(
+                  serverError: (_) => 'Server error',
+                  isNotConnected: (_) => 'Device is not connected',
+                ),
+              ).show(context),
+            },
+            (_) => null,
+          ),
+        );
+      },
+      builder: (context, state) => Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TeamSearchWidget(),
+            if (state.isSearching)
+              const Center(child: CircularProgressIndicator())
+            else
+              state.teamFailureOrSuccess.fold(
+                () => Container(),
+                (either) => either.fold(
+                  (_) => Container(),
+                  (team) => TeamResultWidget(team: team),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -12,42 +12,47 @@ class TeamDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 150.0,
-          height: 150.0,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(team.logo),
+    return Expanded(
+      child: Column(
+        children: [
+          Container(
+            width: 150.0,
+            height: 150.0,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(team.logo),
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(50.0),
-          child: Column(
-            children: [
-              _buildDetails(
-                context: context,
-                label: 'Name',
-                data: team.name,
-              ),
-              const SizedBox(height: 10.0),
-              _buildDetails(
-                context: context,
-                label: 'Country',
-                data: team.country,
-              ),
-              const SizedBox(height: 10.0),
-              _buildDetails(
-                context: context,
-                label: 'Founded',
-                data: team.founded,
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 30.0,
+              horizontal: 50.0,
+            ),
+            child: Column(
+              children: [
+                _buildDetails(
+                  context: context,
+                  label: 'Name',
+                  data: team.name,
+                ),
+                const SizedBox(height: 10.0),
+                _buildDetails(
+                  context: context,
+                  label: 'Country',
+                  data: team.country,
+                ),
+                const SizedBox(height: 10.0),
+                _buildDetails(
+                  context: context,
+                  label: 'Founded',
+                  data: team.founded,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

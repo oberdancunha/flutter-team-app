@@ -11,9 +11,4 @@ abstract class SearchHistory with _$SearchHistory {
     @required int position,
     @required SearchTerm teamSearch,
   }) = _SearchHistory;
-
-  factory SearchHistory.empty() => SearchHistory(
-        position: 0,
-        teamSearch: SearchTerm(''),
-      );
 }

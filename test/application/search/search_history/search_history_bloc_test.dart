@@ -133,7 +133,7 @@ void main() {
     'Filter\n',
     () {
       void setUpBlocFilterEvent() {
-        searchHistoryBloc.add(SearchHistoryEvent.filter(searchHistory, searchHistory, teamSearch));
+        searchHistoryBloc.add(SearchHistoryEvent.filter(searchHistory, teamSearch));
       }
 
       void setUpMockSearchHistoryFilter() {
@@ -177,7 +177,7 @@ void main() {
     'Insert\n',
     () {
       void setUpBlocInsertEvent() {
-        searchHistoryBloc.add(SearchHistoryEvent.insert(searchHistory, searchHistory, teamSearch));
+        searchHistoryBloc.add(SearchHistoryEvent.insert(searchHistory, teamSearch));
       }
 
       group('\tInsert Success\n', () {

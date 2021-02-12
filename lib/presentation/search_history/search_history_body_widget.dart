@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../application/search/search_history/search_history_bloc.dart';
+import '../../application/search/search_history/search_history_bloc.dart';
 import 'search_history_list_widget.dart';
+import 'search_history_not_list_widget.dart';
 
 class SearchHistoryBodyWidget extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class SearchHistoryBodyWidget extends StatelessWidget {
         return ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
           child: Container(
-            height: 180,
+            height: 230,
             width: double.infinity,
             margin: const EdgeInsets.only(
               left: 10,
@@ -40,8 +41,12 @@ class SearchHistoryBodyWidget extends StatelessWidget {
             child: Builder(
               builder: (_) => state.maybeMap(
                 load: (_) => const CircularProgressIndicator(),
-                failure: (_) => Container(),
-                success: (success) => SearchHistoryListWidget(searchHistory: success.searchHistory),
+                failure: (_) => const SearchHistoryNotListWidget(
+                  message: 'Error on listing the search history',
+                ),
+                success: (success) => success.searchHistory.isEmpty()
+                    ? const SearchHistoryNotListWidget(message: 'There is not search history')
+                    : SearchHistoryListWidget(searchHistory: success.searchHistory),
                 orElse: () => Container(),
               ),
             ),

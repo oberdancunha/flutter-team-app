@@ -15,8 +15,6 @@ Quando a consulta é realizada com sucesso, o aplicativo exibe os seguintes resu
 - **Country:** país de origem do time
 - **Founded:** ano de fundação do time
 
-A tela do usuário é atualizada a cada nova pesquisa, primeiramente exibindo o ícone de loading e em seguida o resultado encontrado.
-
 <p
   float="left"
 >
@@ -24,6 +22,14 @@ A tela do usuário é atualizada a cada nova pesquisa, primeiramente exibindo o 
     src="images/initial_screen.png"
     alt="initialscreen"
     title="Initial screen"
+    width="150"
+    height="300"
+    border= "1px solid black"
+  />
+  <img
+    src="images/team_search_history_not_found.png"
+    alt="teamsearchhistorynotfound"
+    title="Team search history not found"
     width="150"
     height="300"
     border= "1px solid black"
@@ -40,6 +46,14 @@ A tela do usuário é atualizada a cada nova pesquisa, primeiramente exibindo o 
     src="images/result_found.png"
     alt="resultfound"
     title="Result found"
+    width="150"
+    height="300"
+    border= "1px solid black"
+  />
+  <img
+    src="images/new_search.png"
+    alt="newsearch"
+    title="New search"
     width="150"
     height="300"
     border= "1px solid black"
@@ -129,6 +143,28 @@ Podemos classificar os dois primeiros items como problemas, propriamente dito. P
   />
 </p>
 
+## Histórico de buscas
+
+A aplicação disponibiliza também um histórico com as 5 últimas buscas realizadas. Termos inválidos ou nulos não são contabilizados nesse histórico, pois a aplicação nem mesmo permite o envio da requisição. Quaisquer outros times pesquisados são adicionados nesse histórico, independente do resultado encontrado.
+
+![Alt Text](images/search_history_new_team.gif)
+
+Se o usuário buscar um time que não esteja na lista e essa lista contiver o número máximo permitido, o histórico mais antigo é removido.
+
+![Alt Text](images/search_history_remove_last_team.gif)
+
+Caso a busca seja por um time que já esteja na lista, esse time mudará para a posição mais recente da lista. Além disso, essa busca pode ser facilmente realizada apenas clicando no time de interesse.
+
+![Alt Text](images/change_team.gif)
+
+O time digitado interage com o histórico, servindo como filtro. Caso o campo de busca esteja vazio, a lista volta ao estado original
+
+![Alt Text](images/search_history_filter.gif)
+
+Caso não haja nenhum histórico, ou que o filtro não encontre nada, é exibida uma mensagem.
+
+![Alt Text](images/search_history_not_found.gif)
+
 ## Testes de integração
 
 Testes de integração são testes realizados diretamente nos dispositivos e emuladores. Portanto, antes de executar os comandos abaixo, é necessário que algum dispositivo esteja conectado no computador, via usb por exemplo, ou que algum emulador esteja em execução. Os dispositivos e emuladores podem ser tanto de iOS quanto de Android.
@@ -136,7 +172,7 @@ Testes de integração são testes realizados diretamente nos dispositivos e emu
 - Testar as possíveis validações do campo de busca (vazio ou inválido).
 
 ```console
-flutter drive --driver=test_driver/integration_test.dart --target=test_integration/team_form_validation_test.dart
+flutter drive --driver=test_driver/integration_test.dart --target=test_integration/team_search_validation_test.dart
 ```
 
 - Testar os possíveis resultados obtidos (não encontrado ou os detalhes do time).
@@ -149,6 +185,12 @@ flutter drive --driver=test_driver/integration_test.dart --target=test_integrati
 
 ```console
 flutter drive --driver=test_driver/integration_test.dart --target=test_integration/team_result_error_test.dart
+```
+
+- Testar o histórico de busca (lista, filtro e erro)
+
+```console
+flutter drive --driver=test_driver/integration_test.dart --target=test_integration/search_history_result_test.dart
 ```
 
 Para maiores detalhes consulte o pacote <https://pub.dev/packages/integration_test>

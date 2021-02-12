@@ -19,21 +19,17 @@ class _$SearchHistoryEventTearOff {
   }
 
 // ignore: unused_element
-  _Filter filter(KtList<SearchHistory> searchHistory,
-      KtList<SearchHistory> searchHistoryPersistent, String teamSearch) {
+  _Filter filter(KtList<SearchHistory> searchHistory, String teamSearch) {
     return _Filter(
       searchHistory,
-      searchHistoryPersistent,
       teamSearch,
     );
   }
 
 // ignore: unused_element
-  _Insert insert(KtList<SearchHistory> searchHistory,
-      KtList<SearchHistory> searchHistoryPersistent, String teamSearch) {
+  _Insert insert(KtList<SearchHistory> searchHistory, String teamSearch) {
     return _Insert(
       searchHistory,
-      searchHistoryPersistent,
       teamSearch,
     );
   }
@@ -49,19 +45,15 @@ mixin _$SearchHistoryEvent {
   TResult when<TResult extends Object>({
     @required TResult list(),
     @required
-        TResult filter(KtList<SearchHistory> searchHistory,
-            KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+        TResult filter(KtList<SearchHistory> searchHistory, String teamSearch),
     @required
-        TResult insert(KtList<SearchHistory> searchHistory,
-            KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+        TResult insert(KtList<SearchHistory> searchHistory, String teamSearch),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult list(),
-    TResult filter(KtList<SearchHistory> searchHistory,
-        KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
-    TResult insert(KtList<SearchHistory> searchHistory,
-        KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+    TResult filter(KtList<SearchHistory> searchHistory, String teamSearch),
+    TResult insert(KtList<SearchHistory> searchHistory, String teamSearch),
     @required TResult orElse(),
   });
   @optionalTypeArgs
@@ -134,11 +126,9 @@ class _$_List implements _List {
   TResult when<TResult extends Object>({
     @required TResult list(),
     @required
-        TResult filter(KtList<SearchHistory> searchHistory,
-            KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+        TResult filter(KtList<SearchHistory> searchHistory, String teamSearch),
     @required
-        TResult insert(KtList<SearchHistory> searchHistory,
-            KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+        TResult insert(KtList<SearchHistory> searchHistory, String teamSearch),
   }) {
     assert(list != null);
     assert(filter != null);
@@ -150,10 +140,8 @@ class _$_List implements _List {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult list(),
-    TResult filter(KtList<SearchHistory> searchHistory,
-        KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
-    TResult insert(KtList<SearchHistory> searchHistory,
-        KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+    TResult filter(KtList<SearchHistory> searchHistory, String teamSearch),
+    TResult insert(KtList<SearchHistory> searchHistory, String teamSearch),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -200,10 +188,7 @@ abstract class _List implements SearchHistoryEvent {
 abstract class _$FilterCopyWith<$Res> {
   factory _$FilterCopyWith(_Filter value, $Res Function(_Filter) then) =
       __$FilterCopyWithImpl<$Res>;
-  $Res call(
-      {KtList<SearchHistory> searchHistory,
-      KtList<SearchHistory> searchHistoryPersistent,
-      String teamSearch});
+  $Res call({KtList<SearchHistory> searchHistory, String teamSearch});
 }
 
 /// @nodoc
@@ -218,16 +203,12 @@ class __$FilterCopyWithImpl<$Res> extends _$SearchHistoryEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object searchHistory = freezed,
-    Object searchHistoryPersistent = freezed,
     Object teamSearch = freezed,
   }) {
     return _then(_Filter(
       searchHistory == freezed
           ? _value.searchHistory
           : searchHistory as KtList<SearchHistory>,
-      searchHistoryPersistent == freezed
-          ? _value.searchHistoryPersistent
-          : searchHistoryPersistent as KtList<SearchHistory>,
       teamSearch == freezed ? _value.teamSearch : teamSearch as String,
     ));
   }
@@ -235,22 +216,18 @@ class __$FilterCopyWithImpl<$Res> extends _$SearchHistoryEventCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_Filter implements _Filter {
-  const _$_Filter(
-      this.searchHistory, this.searchHistoryPersistent, this.teamSearch)
+  const _$_Filter(this.searchHistory, this.teamSearch)
       : assert(searchHistory != null),
-        assert(searchHistoryPersistent != null),
         assert(teamSearch != null);
 
   @override
   final KtList<SearchHistory> searchHistory;
   @override
-  final KtList<SearchHistory> searchHistoryPersistent;
-  @override
   final String teamSearch;
 
   @override
   String toString() {
-    return 'SearchHistoryEvent.filter(searchHistory: $searchHistory, searchHistoryPersistent: $searchHistoryPersistent, teamSearch: $teamSearch)';
+    return 'SearchHistoryEvent.filter(searchHistory: $searchHistory, teamSearch: $teamSearch)';
   }
 
   @override
@@ -260,10 +237,6 @@ class _$_Filter implements _Filter {
             (identical(other.searchHistory, searchHistory) ||
                 const DeepCollectionEquality()
                     .equals(other.searchHistory, searchHistory)) &&
-            (identical(
-                    other.searchHistoryPersistent, searchHistoryPersistent) ||
-                const DeepCollectionEquality().equals(
-                    other.searchHistoryPersistent, searchHistoryPersistent)) &&
             (identical(other.teamSearch, teamSearch) ||
                 const DeepCollectionEquality()
                     .equals(other.teamSearch, teamSearch)));
@@ -273,7 +246,6 @@ class _$_Filter implements _Filter {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(searchHistory) ^
-      const DeepCollectionEquality().hash(searchHistoryPersistent) ^
       const DeepCollectionEquality().hash(teamSearch);
 
   @override
@@ -285,31 +257,27 @@ class _$_Filter implements _Filter {
   TResult when<TResult extends Object>({
     @required TResult list(),
     @required
-        TResult filter(KtList<SearchHistory> searchHistory,
-            KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+        TResult filter(KtList<SearchHistory> searchHistory, String teamSearch),
     @required
-        TResult insert(KtList<SearchHistory> searchHistory,
-            KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+        TResult insert(KtList<SearchHistory> searchHistory, String teamSearch),
   }) {
     assert(list != null);
     assert(filter != null);
     assert(insert != null);
-    return filter(searchHistory, searchHistoryPersistent, teamSearch);
+    return filter(searchHistory, teamSearch);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult list(),
-    TResult filter(KtList<SearchHistory> searchHistory,
-        KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
-    TResult insert(KtList<SearchHistory> searchHistory,
-        KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+    TResult filter(KtList<SearchHistory> searchHistory, String teamSearch),
+    TResult insert(KtList<SearchHistory> searchHistory, String teamSearch),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (filter != null) {
-      return filter(searchHistory, searchHistoryPersistent, teamSearch);
+      return filter(searchHistory, teamSearch);
     }
     return orElse();
   }
@@ -345,12 +313,9 @@ class _$_Filter implements _Filter {
 
 abstract class _Filter implements SearchHistoryEvent {
   const factory _Filter(
-      KtList<SearchHistory> searchHistory,
-      KtList<SearchHistory> searchHistoryPersistent,
-      String teamSearch) = _$_Filter;
+      KtList<SearchHistory> searchHistory, String teamSearch) = _$_Filter;
 
   KtList<SearchHistory> get searchHistory;
-  KtList<SearchHistory> get searchHistoryPersistent;
   String get teamSearch;
   _$FilterCopyWith<_Filter> get copyWith;
 }
@@ -359,10 +324,7 @@ abstract class _Filter implements SearchHistoryEvent {
 abstract class _$InsertCopyWith<$Res> {
   factory _$InsertCopyWith(_Insert value, $Res Function(_Insert) then) =
       __$InsertCopyWithImpl<$Res>;
-  $Res call(
-      {KtList<SearchHistory> searchHistory,
-      KtList<SearchHistory> searchHistoryPersistent,
-      String teamSearch});
+  $Res call({KtList<SearchHistory> searchHistory, String teamSearch});
 }
 
 /// @nodoc
@@ -377,16 +339,12 @@ class __$InsertCopyWithImpl<$Res> extends _$SearchHistoryEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object searchHistory = freezed,
-    Object searchHistoryPersistent = freezed,
     Object teamSearch = freezed,
   }) {
     return _then(_Insert(
       searchHistory == freezed
           ? _value.searchHistory
           : searchHistory as KtList<SearchHistory>,
-      searchHistoryPersistent == freezed
-          ? _value.searchHistoryPersistent
-          : searchHistoryPersistent as KtList<SearchHistory>,
       teamSearch == freezed ? _value.teamSearch : teamSearch as String,
     ));
   }
@@ -394,22 +352,18 @@ class __$InsertCopyWithImpl<$Res> extends _$SearchHistoryEventCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_Insert implements _Insert {
-  const _$_Insert(
-      this.searchHistory, this.searchHistoryPersistent, this.teamSearch)
+  const _$_Insert(this.searchHistory, this.teamSearch)
       : assert(searchHistory != null),
-        assert(searchHistoryPersistent != null),
         assert(teamSearch != null);
 
   @override
   final KtList<SearchHistory> searchHistory;
   @override
-  final KtList<SearchHistory> searchHistoryPersistent;
-  @override
   final String teamSearch;
 
   @override
   String toString() {
-    return 'SearchHistoryEvent.insert(searchHistory: $searchHistory, searchHistoryPersistent: $searchHistoryPersistent, teamSearch: $teamSearch)';
+    return 'SearchHistoryEvent.insert(searchHistory: $searchHistory, teamSearch: $teamSearch)';
   }
 
   @override
@@ -419,10 +373,6 @@ class _$_Insert implements _Insert {
             (identical(other.searchHistory, searchHistory) ||
                 const DeepCollectionEquality()
                     .equals(other.searchHistory, searchHistory)) &&
-            (identical(
-                    other.searchHistoryPersistent, searchHistoryPersistent) ||
-                const DeepCollectionEquality().equals(
-                    other.searchHistoryPersistent, searchHistoryPersistent)) &&
             (identical(other.teamSearch, teamSearch) ||
                 const DeepCollectionEquality()
                     .equals(other.teamSearch, teamSearch)));
@@ -432,7 +382,6 @@ class _$_Insert implements _Insert {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(searchHistory) ^
-      const DeepCollectionEquality().hash(searchHistoryPersistent) ^
       const DeepCollectionEquality().hash(teamSearch);
 
   @override
@@ -444,31 +393,27 @@ class _$_Insert implements _Insert {
   TResult when<TResult extends Object>({
     @required TResult list(),
     @required
-        TResult filter(KtList<SearchHistory> searchHistory,
-            KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+        TResult filter(KtList<SearchHistory> searchHistory, String teamSearch),
     @required
-        TResult insert(KtList<SearchHistory> searchHistory,
-            KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+        TResult insert(KtList<SearchHistory> searchHistory, String teamSearch),
   }) {
     assert(list != null);
     assert(filter != null);
     assert(insert != null);
-    return insert(searchHistory, searchHistoryPersistent, teamSearch);
+    return insert(searchHistory, teamSearch);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult list(),
-    TResult filter(KtList<SearchHistory> searchHistory,
-        KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
-    TResult insert(KtList<SearchHistory> searchHistory,
-        KtList<SearchHistory> searchHistoryPersistent, String teamSearch),
+    TResult filter(KtList<SearchHistory> searchHistory, String teamSearch),
+    TResult insert(KtList<SearchHistory> searchHistory, String teamSearch),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (insert != null) {
-      return insert(searchHistory, searchHistoryPersistent, teamSearch);
+      return insert(searchHistory, teamSearch);
     }
     return orElse();
   }
@@ -504,12 +449,9 @@ class _$_Insert implements _Insert {
 
 abstract class _Insert implements SearchHistoryEvent {
   const factory _Insert(
-      KtList<SearchHistory> searchHistory,
-      KtList<SearchHistory> searchHistoryPersistent,
-      String teamSearch) = _$_Insert;
+      KtList<SearchHistory> searchHistory, String teamSearch) = _$_Insert;
 
   KtList<SearchHistory> get searchHistory;
-  KtList<SearchHistory> get searchHistoryPersistent;
   String get teamSearch;
   _$InsertCopyWith<_Insert> get copyWith;
 }

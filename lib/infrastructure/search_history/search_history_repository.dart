@@ -42,7 +42,9 @@ class SearchHistoryRepository implements ISearchHistoryRepository {
     return searchHistory
         .asList()
         .where(
-          (searchHistory) => searchHistory.teamSearch.getOrError().startsWith(teamSearch),
+          (searchHistory) => searchHistory.teamSearch.getOrError().toLowerCase().startsWith(
+                teamSearch.toLowerCase(),
+              ),
         )
         .toImmutableList();
   }

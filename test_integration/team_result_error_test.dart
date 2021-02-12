@@ -12,15 +12,16 @@ import 'package:teamapp/config_reader.dart';
 import 'package:teamapp/domain/search_history/i_search_history_repository.dart';
 import 'package:teamapp/infrastructure/search_history/search_history_dto.dart';
 import 'package:teamapp/presentation/core/app_module.dart';
-import 'package:teamapp/presentation/core/app_search_team.dart';
 import 'package:teamapp/presentation/core/app_widget.dart';
-import 'package:teamapp/presentation/search/search_page.dart';
-import 'package:teamapp/presentation/search/widgets/search_form_widget.dart';
-import 'package:teamapp/presentation/search/widgets/search_history_body_widget.dart';
-import 'package:teamapp/presentation/search/widgets/search_history_list_widget.dart';
+import 'package:teamapp/presentation/search_history/search_history_body_widget.dart';
+import 'package:teamapp/presentation/search_history/search_history_list_widget.dart';
+import 'package:teamapp/presentation/search_history/search_history_not_list_widget.dart';
 import 'package:teamapp/presentation/team/team_page.dart';
 import 'package:teamapp/presentation/team/widgets/team_details_widget.dart';
 import 'package:teamapp/presentation/team/widgets/team_not_found_widget.dart';
+import 'package:teamapp/presentation/team/widgets/team_result_widget.dart';
+import 'package:teamapp/presentation/team/widgets/team_search_form_widget.dart';
+import 'package:teamapp/presentation/team/widgets/team_search_widget.dart';
 
 class MockDio extends Mock implements Dio {}
 
@@ -36,8 +37,11 @@ void main() {
   MockSearchHistoryRepository mockSearchHistoryRepository;
   const teamSearch = 'Sao Paulo';
   final searchHistory = [
-    SearchHistoryDto(position: 1, teamSearch: teamSearch).toDomain(),
-    SearchHistoryDto(position: 0, teamSearch: 'River Plate').toDomain()
+    SearchHistoryDto(position: 0, teamSearch: teamSearch).toDomain(),
+    SearchHistoryDto(position: 1, teamSearch: 'River Plate').toDomain(),
+    SearchHistoryDto(position: 2, teamSearch: 'Real Madrid').toDomain(),
+    SearchHistoryDto(position: 3, teamSearch: 'AC Milan').toDomain(),
+    SearchHistoryDto(position: 4, teamSearch: 'Boca Juniors').toDomain(),
   ].toImmutableList();
 
   setUp(() async {
@@ -75,6 +79,7 @@ void main() {
     setUpMockSearchHistoryFilter();
     setUpMockSearchHistoryInsert();
     await tester.pumpWidget(AppWidget());
+    await tester.pump();
     await tester.tap(
       find.byKey(const Key(teamSearchTextFieldKey)),
     );
@@ -86,12 +91,13 @@ void main() {
     await tester.pumpAndSettle(const Duration(milliseconds: 700));
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pumpAndSettle();
-    expect(find.byType(AppSearchTeam), findsOneWidget);
-    expect(find.byType(SearchPage), findsOneWidget);
-    expect(find.byType(SearchFormWidget), findsOneWidget);
+    expect(find.byType(TeamPage), findsOneWidget);
+    expect(find.byType(TeamSearchWidget), findsOneWidget);
+    expect(find.byType(TeamSearchFormWidget), findsOneWidget);
     expect(find.byType(SearchHistoryBodyWidget), findsOneWidget);
     expect(find.byType(SearchHistoryListWidget), findsOneWidget);
-    await expectLater(find.byType(TeamPage), findsNothing);
+    expect(find.byType(SearchHistoryNotListWidget), findsNothing);
+    await expectLater(find.byType(TeamResultWidget), findsNothing);
     await expectLater(find.byType(TeamNotFoundWidget), findsNothing);
     await expectLater(find.byType(TeamDetailsWidget), findsNothing);
     expect(find.widgetWithText(TextFormField, teamSearch), findsOneWidget);

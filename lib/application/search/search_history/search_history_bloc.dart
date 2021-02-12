@@ -43,12 +43,12 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
         yield const SearchHistoryState.load();
         final teamSearch = valueSanitize.removeExcessiveWhiteSpaces(e.teamSearch);
         final searchHistory = searchHistoryRepository.filter(
-          searchHistory: e.searchHistoryPersistent,
+          searchHistory: e.searchHistory,
           teamSearch: teamSearch,
         );
         yield SearchHistoryState.success(
           searchHistory,
-          e.searchHistoryPersistent,
+          e.searchHistory,
         );
       },
       insert: (e) async* {
@@ -59,7 +59,7 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
             teamSearchValidate.getOrError(),
           );
           final searchHistoryInserted = await searchHistoryRepository.insert(
-            searchHistory: e.searchHistoryPersistent,
+            searchHistory: e.searchHistory,
             teamSearch: teamSearch,
           );
           yield searchHistoryInserted.fold(
