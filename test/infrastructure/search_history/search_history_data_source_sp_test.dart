@@ -65,7 +65,6 @@ void main() {
       test(
         '\tShould insert the search history with success',
         () async {
-          setUpMockInitialValues();
           when(mockSharedPreferences.setStringList(any, any)).thenAnswer((_) async => true);
           final call = searchHistoryDataSourceSP.insert;
           expect(
