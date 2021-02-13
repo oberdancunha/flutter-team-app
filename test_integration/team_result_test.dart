@@ -51,9 +51,10 @@ void main() {
 
   void initSearchHistory() {
     searchHistory = [
-      SearchHistoryDto(position: 0, teamSearch: 'AC Milan').toDomain(),
-      SearchHistoryDto(position: 1, teamSearch: 'River Plate').toDomain(),
-      SearchHistoryDto(position: 2, teamSearch: 'Boca Juniors').toDomain(),
+      SearchHistoryDto(position: 0, teamSearch: 'Sao Paulo').toDomain(),
+      SearchHistoryDto(position: 1, teamSearch: 'AC Milan').toDomain(),
+      SearchHistoryDto(position: 2, teamSearch: 'River Plate').toDomain(),
+      SearchHistoryDto(position: 3, teamSearch: 'Boca Juniors').toDomain(),
     ].toList();
   }
 
@@ -66,7 +67,7 @@ void main() {
   void setUpMockSearchHistoryList() {
     when(mockSearchHistoryRepository.list()).thenAnswer(
       (_) async => right(
-        searchHistory.toImmutableList(),
+        searchHistory.reversed.toImmutableList(),
       ),
     );
   }
@@ -78,9 +79,17 @@ void main() {
     )).thenReturn(const KtList.empty());
   }
 
+  void setUpMockSearchHistoryFilterAfterChoose() {
+    when(mockSearchHistoryRepository.filter(
+      searchHistory: anyNamed('searchHistory'),
+      teamSearch: anyNamed('teamSearch'),
+    )).thenReturn(searchHistory.reversed.toImmutableList());
+  }
+
   void setUpMockSearchHistoryInsert(String teamSearch) {
+    searchHistory.removeWhere((history) => history.teamSearch.getOrError() == teamSearch);
     searchHistory.add(
-      SearchHistoryDto(position: 3, teamSearch: teamSearch).toDomain(),
+      SearchHistoryDto(position: 4, teamSearch: teamSearch).toDomain(),
     );
     when(mockSearchHistoryRepository.insert(
       searchHistory: anyNamed('searchHistory'),
@@ -92,7 +101,8 @@ void main() {
     @required WidgetTester tester,
     @required String teamSearch,
     @required int pumpMilliseconds,
-    @required Function body,
+    @required bool chooseSearchHistory,
+    @required Function customizedBody,
   }) async {
     initModule(
       AppModule(),
@@ -110,6 +120,11 @@ void main() {
     await tester.tap(
       find.byKey(const Key(teamSearchTextFieldKey)),
     );
+    if (chooseSearchHistory) {
+      await tester.pumpAndSettle(const Duration(milliseconds: 700));
+      await tester.tap(find.byKey(Key(teamSearch)));
+      setUpMockSearchHistoryFilterAfterChoose();
+    }
     await tester.pumpAndSettle(const Duration(milliseconds: 700));
     await tester.enterText(
       find.byKey(const Key(teamSearchTextFieldKey)),
@@ -126,7 +141,7 @@ void main() {
     expect(find.byType(SearchHistoryListWidget), findsOneWidget);
     expect(find.byType(SearchHistoryNotListWidget), findsNothing);
     await expectLater(find.byType(TeamResultWidget), findsOneWidget);
-    body();
+    customizedBody();
     expect(find.widgetWithText(TextFormField, teamSearch), findsOneWidget);
     Modular.removeModule(AppModule());
   }
@@ -140,7 +155,8 @@ void main() {
         tester: tester,
         teamSearch: teamSearch,
         pumpMilliseconds: 1,
-        body: () async {
+        chooseSearchHistory: false,
+        customizedBody: () async {
           await expectLater(find.byType(TeamNotFoundWidget), findsOneWidget);
           await expectLater(find.byType(TeamDetailsWidget), findsNothing);
         },
@@ -157,7 +173,26 @@ void main() {
         tester: tester,
         teamSearch: teamSearch,
         pumpMilliseconds: 3000,
-        body: () async {
+        chooseSearchHistory: false,
+        customizedBody: () async {
+          await expectLater(find.byType(TeamNotFoundWidget), findsNothing);
+          await expectLater(find.byType(TeamDetailsWidget), findsOneWidget);
+        },
+      );
+    },
+  );
+
+  testWidgets(
+    'Should return the data when the team searched is choosed in search history',
+    (WidgetTester tester) async {
+      const teamSearch = 'Sao Paulo';
+      setUpMockGetTeamDetails(teamDetails);
+      await setUpSearchAndTeamDetails(
+        tester: tester,
+        teamSearch: teamSearch,
+        pumpMilliseconds: 3000,
+        chooseSearchHistory: true,
+        customizedBody: () async {
           await expectLater(find.byType(TeamNotFoundWidget), findsNothing);
           await expectLater(find.byType(TeamDetailsWidget), findsOneWidget);
         },

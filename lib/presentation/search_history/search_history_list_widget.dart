@@ -48,6 +48,7 @@ class SearchHistoryListWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 final teamSearch = searchHistory[index].teamSearch.getOrError();
                 return GestureDetector(
+                  key: Key(teamSearch),
                   onTap: () {
                     context.read<TeamDetailsBloc>().add(TeamDetailsEvent.changeTeam(teamSearch));
                   },
