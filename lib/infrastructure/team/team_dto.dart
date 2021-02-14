@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../domain/teams/team.dart';
+import '../../domain/team/team.dart';
 
 part 'team_dto.freezed.dart';
 part 'team_dto.g.dart';
@@ -18,8 +18,7 @@ abstract class TeamDto with _$TeamDto {
     @required String logo,
   }) = _TeamDto;
 
-  factory TeamDto.fromJson(Map<String, dynamic> teamJson) =>
-      _$TeamDtoFromJson(teamJson);
+  factory TeamDto.fromJson(Map<String, dynamic> teamJson) => _$TeamDtoFromJson(teamJson);
 
   Team toDomain() => Team(
         id: id,

@@ -1,30 +1,39 @@
+import 'package:dartz/dartz.dart' hide Bind;
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:kt_dart/kt.dart';
 import 'package:mockito/mockito.dart';
 import 'package:teamapp/config_reader.dart';
-import 'package:teamapp/domain/teams/i_team_data_source.dart';
-import 'package:teamapp/domain/teams/team.dart';
-import 'package:teamapp/infrastructure/team/team_data_source_dio.dart';
+import 'package:teamapp/domain/search_history/i_search_history_repository.dart';
+import 'package:teamapp/domain/search_history/search_history.dart';
+import 'package:teamapp/domain/team/i_team_repository.dart';
+import 'package:teamapp/domain/team/team.dart';
+import 'package:teamapp/infrastructure/search_history/search_history_dto.dart';
 import 'package:teamapp/infrastructure/team/team_dto.dart';
 import 'package:teamapp/presentation/core/app_module.dart';
 import 'package:teamapp/presentation/core/app_widget.dart';
-import 'package:teamapp/presentation/team/widget/team_details.dart';
-import 'package:teamapp/presentation/team/widget/team_form.dart';
-import 'package:teamapp/presentation/team/widget/team_form_result.dart';
-import 'package:teamapp/presentation/team/widget/team_not_found.dart';
-import 'package:teamapp/presentation/team/widget/team_result.dart';
-import 'package:teamapp/presentation/team/widget/team_result_details.dart';
+import 'package:teamapp/presentation/search_history/search_history_body_widget.dart';
+import 'package:teamapp/presentation/search_history/search_history_list_widget.dart';
+import 'package:teamapp/presentation/search_history/search_history_not_list_widget.dart';
+import 'package:teamapp/presentation/team/team_page.dart';
+import 'package:teamapp/presentation/team/widgets/team_details_widget.dart';
+import 'package:teamapp/presentation/team/widgets/team_not_found_widget.dart';
+import 'package:teamapp/presentation/team/widgets/team_result_widget.dart';
+import 'package:teamapp/presentation/team/widgets/team_search_form_widget.dart';
+import 'package:teamapp/presentation/team/widgets/team_search_widget.dart';
 
-class MockTeamDataSource extends Mock implements TeamDataSourceDio {}
+class MockTeamRepository extends Mock implements ITeamRepository {}
+
+class MockSearchHistoryRepository extends Mock implements ISearchHistoryRepository {}
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   const teamSearchTextFieldKey = 'team_search_text';
-  MockTeamDataSource mockTeamDataSource;
-
+  MockSearchHistoryRepository mockSearchHistoryRepository;
+  MockTeamRepository mockTeamRepository;
   final teamDetails = TeamDto.fromJson({
     "id": 126,
     "name": "Sao Paulo",
@@ -32,54 +41,124 @@ void main() {
     "founded": 1930,
     "logo": "https://media.api-sports.io/football/teams/126.png"
   }).toDomain();
+  List<SearchHistory> searchHistory;
 
   setUp(() async {
     await ConfigReader.initialize();
-    mockTeamDataSource = MockTeamDataSource();
+    mockSearchHistoryRepository = MockSearchHistoryRepository();
+    mockTeamRepository = MockTeamRepository();
   });
 
-  Future<void> searchResult({
+  void initSearchHistory() {
+    searchHistory = [
+      SearchHistoryDto(position: 0, teamSearch: 'Sao Paulo').toDomain(),
+      SearchHistoryDto(position: 1, teamSearch: 'AC Milan').toDomain(),
+      SearchHistoryDto(position: 2, teamSearch: 'River Plate').toDomain(),
+      SearchHistoryDto(position: 3, teamSearch: 'Boca Juniors').toDomain(),
+    ].toList();
+  }
+
+  void setUpMockGetTeamDetails(Team returnData) {
+    when(mockTeamRepository.getDetails(any)).thenAnswer(
+      (_) async => right(returnData),
+    );
+  }
+
+  void setUpMockSearchHistoryList() {
+    when(mockSearchHistoryRepository.list()).thenAnswer(
+      (_) async => right(
+        searchHistory.reversed.toImmutableList(),
+      ),
+    );
+  }
+
+  void setUpMockSearchHistoryFilter(String teamSearch) {
+    when(mockSearchHistoryRepository.filter(
+      searchHistory: anyNamed('searchHistory'),
+      teamSearch: anyNamed('teamSearch'),
+    )).thenReturn(const KtList.empty());
+  }
+
+  void setUpMockSearchHistoryFilterAfterChoose() {
+    when(mockSearchHistoryRepository.filter(
+      searchHistory: anyNamed('searchHistory'),
+      teamSearch: anyNamed('teamSearch'),
+    )).thenReturn(searchHistory.reversed.toImmutableList());
+  }
+
+  void setUpMockSearchHistoryInsert(String teamSearch) {
+    searchHistory.removeWhere((history) => history.teamSearch.getOrError() == teamSearch);
+    searchHistory.add(
+      SearchHistoryDto(position: 4, teamSearch: teamSearch).toDomain(),
+    );
+    when(mockSearchHistoryRepository.insert(
+      searchHistory: anyNamed('searchHistory'),
+      teamSearch: anyNamed('teamSearch'),
+    )).thenAnswer((_) async => right(searchHistory.reversed.toImmutableList()));
+  }
+
+  Future<void> setUpSearchAndTeamDetails({
     @required WidgetTester tester,
-    @required String inputText,
+    @required String teamSearch,
     @required int pumpMilliseconds,
-    @required Function body,
+    @required bool chooseSearchHistory,
+    @required Function customizedBody,
   }) async {
     initModule(
       AppModule(),
       initialModule: true,
       changeBinds: [
-        Bind<ITeamDataSource>((i) => mockTeamDataSource),
+        Bind<ISearchHistoryRepository>((i) => mockSearchHistoryRepository),
+        Bind<ITeamRepository>((i) => mockTeamRepository)
       ],
     );
+    initSearchHistory();
+    setUpMockSearchHistoryList();
+    setUpMockSearchHistoryFilter(teamSearch);
     await tester.pumpWidget(AppWidget());
+    await tester.pump();
+    await tester.tap(
+      find.byKey(const Key(teamSearchTextFieldKey)),
+    );
+    if (chooseSearchHistory) {
+      await tester.pumpAndSettle(const Duration(milliseconds: 700));
+      await tester.tap(find.byKey(Key(teamSearch)));
+      setUpMockSearchHistoryFilterAfterChoose();
+    }
+    await tester.pumpAndSettle(const Duration(milliseconds: 700));
     await tester.enterText(
       find.byKey(const Key(teamSearchTextFieldKey)),
-      inputText,
+      teamSearch,
     );
+    await tester.pumpAndSettle(const Duration(milliseconds: 700));
     await tester.testTextInput.receiveAction(TextInputAction.done);
+    setUpMockSearchHistoryInsert(teamSearch);
     await tester.pumpAndSettle(Duration(milliseconds: pumpMilliseconds));
-    expect(find.byType(TeamFormResult), findsOneWidget);
-    expect(find.byType(TeamForm), findsOneWidget);
-    await expectLater(find.byType(TeamResult), findsOneWidget);
-    await expectLater(find.byType(TeamResultDetails), findsOneWidget);
-    body();
-    expect(find.widgetWithText(TextFormField, inputText), findsOneWidget);
+    expect(find.byType(TeamPage), findsOneWidget);
+    expect(find.byType(TeamSearchWidget), findsOneWidget);
+    expect(find.byType(TeamSearchFormWidget), findsOneWidget);
+    expect(find.byType(SearchHistoryBodyWidget), findsOneWidget);
+    expect(find.byType(SearchHistoryListWidget), findsOneWidget);
+    expect(find.byType(SearchHistoryNotListWidget), findsNothing);
+    await expectLater(find.byType(TeamResultWidget), findsOneWidget);
+    customizedBody();
+    expect(find.widgetWithText(TextFormField, teamSearch), findsOneWidget);
     Modular.removeModule(AppModule());
   }
 
   testWidgets(
     'Should return an alert when the team searched is not found',
     (WidgetTester tester) async {
-      when(mockTeamDataSource.getDetails(any)).thenAnswer(
-        (_) async => Team.empty(),
-      );
-      await searchResult(
+      const teamSearch = 'Sao Paul';
+      setUpMockGetTeamDetails(Team.empty());
+      await setUpSearchAndTeamDetails(
         tester: tester,
-        inputText: 'Sao Paul',
+        teamSearch: teamSearch,
         pumpMilliseconds: 1,
-        body: () async {
-          await expectLater(find.byType(TeamNotFound), findsOneWidget);
-          await expectLater(find.byType(TeamDetails), findsNothing);
+        chooseSearchHistory: false,
+        customizedBody: () async {
+          await expectLater(find.byType(TeamNotFoundWidget), findsOneWidget);
+          await expectLater(find.byType(TeamDetailsWidget), findsNothing);
         },
       );
     },
@@ -88,16 +167,34 @@ void main() {
   testWidgets(
     'Should return the data when the team searched is found',
     (WidgetTester tester) async {
-      when(mockTeamDataSource.getDetails(any)).thenAnswer(
-        (_) async => teamDetails,
-      );
-      await searchResult(
+      const teamSearch = 'Sao Paulo';
+      setUpMockGetTeamDetails(teamDetails);
+      await setUpSearchAndTeamDetails(
         tester: tester,
-        inputText: 'Sao Paulo',
-        pumpMilliseconds: 2000,
-        body: () async {
-          await expectLater(find.byType(TeamNotFound), findsNothing);
-          await expectLater(find.byType(TeamDetails), findsOneWidget);
+        teamSearch: teamSearch,
+        pumpMilliseconds: 3000,
+        chooseSearchHistory: false,
+        customizedBody: () async {
+          await expectLater(find.byType(TeamNotFoundWidget), findsNothing);
+          await expectLater(find.byType(TeamDetailsWidget), findsOneWidget);
+        },
+      );
+    },
+  );
+
+  testWidgets(
+    'Should return the data when the team searched is choosed in search history',
+    (WidgetTester tester) async {
+      const teamSearch = 'Sao Paulo';
+      setUpMockGetTeamDetails(teamDetails);
+      await setUpSearchAndTeamDetails(
+        tester: tester,
+        teamSearch: teamSearch,
+        pumpMilliseconds: 3000,
+        chooseSearchHistory: true,
+        customizedBody: () async {
+          await expectLater(find.byType(TeamNotFoundWidget), findsNothing);
+          await expectLater(find.byType(TeamDetailsWidget), findsOneWidget);
         },
       );
     },

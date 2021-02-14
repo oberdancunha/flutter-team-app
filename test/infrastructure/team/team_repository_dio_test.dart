@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:teamapp/core/errors/exceptions/server_exception.dart';
 import 'package:teamapp/core/network/i_network_info.dart';
-import 'package:teamapp/domain/core/failures.dart';
-import 'package:teamapp/domain/teams/i_team_data_source.dart';
+import 'package:teamapp/domain/team/i_team_data_source.dart';
+import 'package:teamapp/domain/team/team_failures.dart';
 import 'package:teamapp/infrastructure/team/team_dto.dart';
 import 'package:teamapp/infrastructure/team/team_repository.dart';
 
@@ -19,7 +19,7 @@ void main() {
   MockNetworkInfo mockNetworkInfo;
   MockTeamDataSource mockTeamDataSource;
   String teamSearch;
-  final teamDetails = TeamDto.fromJson(jsonReader('team.json')).toDomain();
+  final teamDetails = TeamDto.fromJson(jsonReader('team/team.json')).toDomain();
 
   setUp(() {
     mockNetworkInfo = MockNetworkInfo();
@@ -41,7 +41,7 @@ void main() {
     when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
     final result = await repository.getDetails(teamSearch);
     verifyNever(mockTeamDataSource.getDetails(teamSearch));
-    expect(result, equals(left(const Failure.isNotConnected())));
+    expect(result, equals(left(const TeamFailure.isNotConnected())));
   });
 
   void runTestsOnline(Function test) {
@@ -73,7 +73,7 @@ void main() {
         when(mockTeamDataSource.getDetails(any)).thenThrow(ServerException());
         final result = await repository.getDetails(teamSearch);
         verify(mockTeamDataSource.getDetails(teamSearch));
-        expect(result, equals(left(const Failure.serverError())));
+        expect(result, equals(left(const TeamFailure.serverError())));
       },
     );
   });
