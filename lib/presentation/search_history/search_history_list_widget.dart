@@ -50,7 +50,9 @@ class SearchHistoryListWidget extends StatelessWidget {
                 return GestureDetector(
                   key: Key(teamSearch),
                   onTap: () {
-                    context.read<TeamDetailsBloc>().add(TeamDetailsEvent.changeTeam(teamSearch));
+                    if (context.read<TeamDetailsBloc>().state.isSearching == false) {
+                      context.read<TeamDetailsBloc>().add(TeamDetailsEvent.changeTeam(teamSearch));
+                    }
                   },
                   child: Text(
                     teamSearch,
