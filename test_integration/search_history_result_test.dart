@@ -61,7 +61,6 @@ void main() {
   void setUpMockSearchHistoryFilter(String teamSearch) {
     final searchHistory = [
       SearchHistoryDto(position: 3, teamSearch: teamSearch).toDomain(),
-      SearchHistoryDto(position: 4, teamSearch: 'Santos').toDomain(),
     ].toImmutableList();
     when(mockSearchHistoryRepository.filter(
       searchHistory: anyNamed('searchHistory'),
