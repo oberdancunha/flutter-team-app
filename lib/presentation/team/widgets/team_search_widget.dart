@@ -33,9 +33,11 @@ class _SearchState extends State<TeamSearchWidget> {
                 height: 85.0,
                 child: TeamSearchFormWidget(
                   onTap: () {
-                    setState(() {
-                      callSearchHistory = true;
-                    });
+                    if (callSearchHistory == false) {
+                      setState(() {
+                        callSearchHistory = true;
+                      });
+                    }
                   },
                 ),
               ),
