@@ -2,7 +2,7 @@
 
 Aplicativo para a consulta de time de futebol. Ao digitar um time, o aplicativo realiza a busca e, em caso de sucesso, exibe as informações para o usuário. Caso contrário, é exibido o respectivo problema encontrado.
 
-Este é um aplicativo bem simples, pois a ênfase não é o produto e sim a sua construção. A construção usou o framework flutter, pacotes como o flutter_modular, para injeção de dependência e rotas e o flutter_bloc para eventos e gerência de estados, além de outros pacotes. Por fim, uso de conceitos de arquitetura limpa e testes (incluindo testes de integração), apesar desses dois últimos serem redundantes.
+Este é um aplicativo bem simples, pois a ênfase não é o produto e sim a sua construção. A construção usou o flutter toolkit, pacotes como o flutter_modular, para injeção de dependência e rotas e o flutter_bloc para eventos e gerência de estados, além de outros pacotes. Por fim, uso de conceitos de arquitetura limpa e testes (incluindo testes de integração), apesar desses dois últimos serem redundantes.
 
 Esse tutorial, no momento, não entrará em detalhes sobre os pacotes utilizados, nem sobre os conceitos de arquitetura limpa. A documentação dos pacotes encontra-se em <https://pub.dev/>. Sobre arquitetura limpa e código limpo, o conselho é a leitura dos livros homônimos do Robert Martin (Uncle Bob).
 
